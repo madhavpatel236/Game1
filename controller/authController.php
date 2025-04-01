@@ -11,6 +11,8 @@ class authController
     public $name;
     public $role;
     public $userModelObject;
+    public $isValid = true;
+    public $errors = ['name_error' => '', 'email_error' => '', 'password_error' => '', 'general_error' => ''];
 
     public function __construct()
     {
@@ -20,6 +22,31 @@ class authController
         $this->name =  isset($_POST['name']) ? $_POST['name'] : "";
         $this->role = isset($_POST['role']) ? $_POST['role'] : "";
         // var_dump($this->role); exit;
+
+
+        // validation
+
+        if (isset($_POST['submit_btn']) || isset($_POST['register_btn'])) {
+            if ($this->name && empty($this->name)) {
+                $this->errors['name_error'] = "name is reqired";
+                $this->isValid = false;
+            }
+            if (empty($this->email)) {
+                $this->errors['email_error'] = "email is reqired";
+                $this->isValid = false;
+            }
+            if (empty($this->password)) {
+                $this->errors['password_error'] = "password is reqired";
+                $this->isValid = false;
+            }
+            if ($_SESSION['isUserPresentAlready'] == true) {
+                $this->errors['general_error'] = "User already present, please use different email address.";
+                $this->isValid = false;
+            }
+            if($this->isValid != false){
+                return false;
+            }
+        }
     }
 
     public function auth()
@@ -44,4 +71,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $authControllerObj->createUser();
     }
 }
+
 $authControllerObj = new authController();

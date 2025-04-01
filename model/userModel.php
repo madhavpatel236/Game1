@@ -30,9 +30,10 @@ class userModel
 
         // admin auth
         if ($adminData->num_rows > 0) {
-            echo "<script> console.log('Admin fatched sucessfully!') </script>";
             $row = $adminData->fetch_assoc();
-            if ($email == $row['Email'] && $password == $row['Password']) {
+            $varifyPassword = password_verify($password, $row['Password']);
+            if ($email == $row['Email'] && $varifyPassword) {
+                echo "<script> console.log('Admin fatched sucessfully!') </script>";
                 header('Location: /Game1/view/adminHome.php ');
                 exit;
             }
@@ -57,7 +58,8 @@ class userModel
         }
 
         foreach ($userlist as $user) {
-            if ($user['email'] == $email && $user['password'] == $password) {
+            $varifyPassword = password_verify($password, $user['Password']);
+            if ($user['email'] == $email && $varifyPassword) {
                 header("Location: ./Game1/view/userHome.php ");
                 exit;
             }
@@ -69,12 +71,12 @@ class userModel
         $newTable = "CREATE TABLE IF NOT EXISTS auth(
             Id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
             Name VARCHAR(20) NOT NULL,
-            Email VARCHAR(20) NOT NULL,
-            Password VARCHAR(20) NOT NULL,
+            Email VARCHAR(40) NOT NULL,
+            Password VARCHAR(100) NOT NULL,
             Role VARCHAR(10) NOT NULL   
         )";
         if ($this->isConnect->query($newTable)) {
-            echo "<script> console.log('auth table was created sucessfully.'); </script>";
+            // echo "<script> console.log('auth table was created sucessfully.'); </script>";
         } else {
             echo "<script> console.log('*ERROR: auth table was not created.'); </script>";
         }
@@ -83,14 +85,27 @@ class userModel
     // create user
     public function createUser($name, $email, $password, $role)
     {
-        // $hashPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $newUser = "INSERT INTO auth (Name, Email, Password, Role) VALUES ( '$name' , '$email', '$password', '$role' ) ";
-        if ($this->isConnect->query($newUser)) {
-            echo "<script> console.log('user Addded into the auth table.'); </script>";
+        // check if email is present in db
+        $checkDB = "SELECT * FROM auth WHERE Email = '$email'";
+        $checkDBResult = $this->isConnect->query($checkDB);
+        
+        $row = $checkDBResult->num_rows >0;
+
+        if (!$row) {
+            $hashPassword = password_hash($password, PASSWORD_DEFAULT);
+            $newUser = "INSERT INTO auth (Name, Email, Password, Role) VALUES ( '$name' , '$email', '$hashPassword', '$role' ) ";
+            if ($this->isConnect->query($newUser)) {
+                echo "<script> console.log('user Addded into the auth table.'); </script>";
+                header("Location: /Game1/view/userHome.php");
+                exit;
+            } else {
+                echo $this->isConnect->error;
+                "<script> console.log('*ERROR: user was not enter in the auth table.'); </script>";
+            }
         } else {
-            echo $this->isConnect->error;
-            "<script> console.log('*ERROR: user was not enter in the auth table.'); </script>";
+            $_SESSION['isUserPresentAlready'] = true;
+            return;
         }
     }
 }
