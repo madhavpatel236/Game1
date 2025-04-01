@@ -1,5 +1,7 @@
 <?php
 
+use function PHPSTORM_META\map;
+
 include('../constant.php');
 include __APPPATH__ . '/constant.php';
 include __APPPATH__ . '/dbConnection.php';
@@ -14,12 +16,13 @@ class userModel
         $this->isConnect = $db->dbConnection();
         // var_dump($this->isConnect); exit;
         if ($this->isConnect) {
-            echo "<script> console.log('Database was connected with the model.'); </script>";
+            // echo "<script> console.log('Database was connected with the model.'); </script>";
         } else {
             echo "<script> console.log('*ERROR: Database was not connected with the model.'); </script>";
         }
 
         $this->createAuthTable();
+        $this->createRulesTable();
     }
 
     public function authentication($email, $password)
@@ -82,6 +85,20 @@ class userModel
         }
     }
 
+    public function createRulesTable()
+    {
+        $table = "CREATE TABLE IF NOT EXISTS rules(
+            Id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+            NumberOfPlayers INT(5) NOT NULL,
+            Points INT(5) NOT NULL
+        )";
+        if ($this->isConnect->query($table)) {
+            // echo "<script> console.log(' rules table was created.'); </script> ";
+        } else {
+            echo "<script> console.log('*ERROR: rules table was not created.'); </script> ";
+        }
+    }
+
     // create user
     public function createUser($name, $email, $password, $role)
     {
@@ -89,8 +106,8 @@ class userModel
         // check if email is present in db
         $checkDB = "SELECT * FROM auth WHERE Email = '$email'";
         $checkDBResult = $this->isConnect->query($checkDB);
-        
-        $row = $checkDBResult->num_rows >0;
+
+        $row = $checkDBResult->num_rows > 0;
 
         if (!$row) {
             $hashPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -107,6 +124,19 @@ class userModel
             $_SESSION['isUserPresentAlready'] = true;
             return;
         }
+    }
+
+    public function insertRulesData($userNumber, $points)
+    {
+        foreach( $userNumber as $number ){
+            
+        }
+        // $insert = "INSERT INTO rules (NumberOfPlayers, Points) VALUES ($userNumber, $points)";
+        // if ($this->isConnect->query($insert)) {
+        //     echo " <script> consol.log(' Rules are added in the table(rules-table)'); </script> ";
+        // } else {
+        //     echo " <script> consol.log('*ERROR: Rules was not be added in the table(rules-table)'); </script> ";
+        // }
     }
 }
 

@@ -59,3 +59,23 @@ $(document).ready(function () {
     }
   });
 });
+
+
+//  ------------------ adminHome validation ---------------------
+
+// $(document).ready(function(){
+//   var user_number = $('.user_number').val().trim();
+//   var points = $('.points').val().trim();
+//   var isValidate = true;
+
+//   if(user_number == ""){
+//     $('.common_error').text('For open a new field, please enter all the current field.');
+//     isValidate = false;
+//   }
+
+//   $('.submit_rule').click(function(){
+//     if(!isValidate){
+//       return; 
+//     }
+//   })
+// })

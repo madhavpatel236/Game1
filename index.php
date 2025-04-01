@@ -20,11 +20,6 @@ $_SESSION['isUserPresentAlready'] = false;
 <body>
     <h3> Login </h3>
     <form id="loginForm" method="post">
-        <!-- <input id="role" name="role" type="text" value="user" hidden /> -->
-        <!-- <lable for="name"> Name: </lable>
-        <input id="name" name="name" type="text" />
-        <span name='name_error' id="name_error"></span> <br /> <br /> -->
-
         <lable for="email"> Email: </lable>
         <input id="email" name="email" type="email" />
         <span name='email_error' id="email_error"> <?php echo $authControllerObj->errors['email_error']; ?> </span> <br /> <br />
