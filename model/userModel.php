@@ -239,7 +239,8 @@ class userModel
         // find the rank of the user.
         $rankOfUser = "SELECT Ranking FROM userData WHERE Email = '$email'";
         $rankOfUserResult = $this->isConnect->query($rankOfUser);
-        $fetchedRank = $rankOfUserResult->fetch_assoc(); // here we get a rank of the user.
+        $fetch = $rankOfUserResult->fetch_assoc(); // here we get a rank of the user.
+        $fetchedRank = $fetch['Ranking'];
         echo __LINE__; var_dump($fetchedRank); echo "<br/>";
         if ($rankOfUserResult) {
             echo " <script> console.log('sucessfully find the rank of the user.'); </script> ";
@@ -248,8 +249,10 @@ class userModel
             " <script> console.log('*ERROR: Does not find the rank of the user.'); </script> ";
         }
 
-        // select the rules row based on the user rank. // ORDER BY Id DESC LIMIT 1
-        $row = "SELECT * FROM rules WHERE NumberOfPlayers >= '$fetchedRank' ORDER BY NumberOfPlayers  LIMIT 1 ";
+        // select the rules row based on the user rank. // 
+        // SELECT * FROM `rules` WHERE `NumberOfPlayers` >= 19 
+        // TODO: solve the '$fetchedRank' issue fetchedRank does not work (condition not matched).
+        $row = "SELECT * FROM rules WHERE NumberOfPlayers >= '$fetchedRank' ORDER BY NumberOfPlayers LIMIT 1 ";
         $rowResult = $this->isConnect->query($row);
         $fetchRowFromRules = $rowResult->fetch_assoc(); // here we get a row from the rules table like ([NumberOfPlayers] => '' , [Points] => '')
         echo __LINE__; var_dump($fetchRowFromRules); echo "<br/>";
