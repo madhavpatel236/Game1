@@ -34,3 +34,5 @@ $_SESSION['isUserPresentAlready'] = false;
 </body>
 
 </html>
+
+<!-- read all the rules and add at the end of the AdminHome page. -->

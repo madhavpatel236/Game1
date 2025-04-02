@@ -19,7 +19,12 @@ class adminController
         $points = $_POST['Points'];
         $this->userModelObject->insertRulesData($userNumber, $points);
     }
-    public function removeData() {}
+    // public function removeData() {}
+
+    public function getAllRules()
+    {
+        return $this->userModelObject->getAllRules();
+    }
 }
 
 
@@ -33,8 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             case 'create':
                 $adminControllerObj->addRules();
                 break;
-            case 'remove':
-                $adminControllerObj->removeData();
+            case 'read':
+                $adminControllerObj->getAllRules();
+                break;
+                // case 'remove':
+                //     $adminControllerObj->removeData();
         }
     };
 }

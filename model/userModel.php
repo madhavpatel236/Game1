@@ -89,8 +89,8 @@ class userModel
     {
         $table = "CREATE TABLE IF NOT EXISTS rules(
             Id INT(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-            NumberOfPlayers INT(5) NOT NULL,
-            Points INT(5) NOT NULL
+            NumberOfPlayers INT(5) ,
+            Points INT(5) 
         )";
         if ($this->isConnect->query($table)) {
             // echo "<script> console.log(' rules table was created.'); </script> ";
@@ -128,15 +128,30 @@ class userModel
 
     public function insertRulesData($userNumber, $points)
     {
-        foreach( $userNumber as $number ){
-            
+        foreach ($userNumber as $key => $value) {
+            $point = $points[$key];
+            $insert = "INSERT INTO rules (NumberOfPlayers, Points) VALUES ($value, $point)";
+            if ($this->isConnect->query($insert)) {
+                echo " <script> consol.log(' Rules are added in the table(rules-table)'); </script> ";
+            } else {
+                echo  "<script> consol.log('*ERROR: Rules was not be added in the table(rules-table)'); </script> ";
+            }
         }
         // $insert = "INSERT INTO rules (NumberOfPlayers, Points) VALUES ($userNumber, $points)";
-        // if ($this->isConnect->query($insert)) {
-        //     echo " <script> consol.log(' Rules are added in the table(rules-table)'); </script> ";
-        // } else {
-        //     echo " <script> consol.log('*ERROR: Rules was not be added in the table(rules-table)'); </script> ";
-        // }
+    }
+
+    public function getAllRules()
+    {
+        $rules = "SELECT * FROM rules";
+        $rulesResult = $this->isConnect->query($rules);
+
+        if ($rulesResult) {
+            return $rulesResult;
+        } else {
+            echo "<script> console.log('*ERROR: Does not get all the user. ');  </script>";
+            return false;
+        }
+        return $rulesResult;
     }
 }
 

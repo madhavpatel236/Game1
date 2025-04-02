@@ -40,12 +40,14 @@ include  __APPPATH__ . '/controller/adminController.php';
     var pointsArray = [];
 
     $('#add_fields_btn').click(function() {
+        readRules(); // TODO: add after all the btn click res end.
         count += 1;
         var field = `
                 <div>
                     <input class='user_number' id = 'user_number${count}' type="number" />
                     <input class='points' id = 'points${count}' type="number" />
-                    <button class = 'remove${count}'> - </button>
+                    <input class='field_id' id='${count}' hidden />
+                    <button  class="remove_btn" id = 'remove${count}'> - </button>
             </div> <br/>`;
         $('.add_div').append(field);
     })
@@ -57,7 +59,7 @@ include  __APPPATH__ . '/controller/adminController.php';
             let addPoints = $(`#points${i}`).val();
             userNumberArray[i] = userNumber;
             pointsArray[i] = addPoints;
-            
+
         }
         // console.log(userNumberArray);
         // console.log(pointsArray);
@@ -71,10 +73,26 @@ include  __APPPATH__ . '/controller/adminController.php';
                 Points: pointsArray,
             },
             success: function(response) {
-                alert(response);
+                // alert(response);
             }
         })
     })
+
+    // $('.remove_btn').click(function() {})
+
+    function readRules() {
+        $.ajax({
+            url: '../controller/adminController.php',
+            type: 'POST',
+            data: {
+                action: "read"
+            },
+            success: function(response) {
+                console.log(response);
+            }
+        })
+    }
+
 </script>
 
 </html>
