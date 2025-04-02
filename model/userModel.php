@@ -1,7 +1,5 @@
 <?php
-
-use function PHPSTORM_META\map;
-
+session_start();
 include('../constant.php');
 include __APPPATH__ . '/constant.php';
 include __APPPATH__ . '/dbConnection.php';
@@ -28,10 +26,8 @@ class userModel
 
     public function authentication($email, $password)
     {
-
         $admin = "SELECT * FROM auth WHERE Role = 'admin'";
         $adminData = $this->isConnect->query($admin);
-
         // admin auth
         if ($adminData->num_rows > 0) {
             $row = $adminData->fetch_assoc();
@@ -44,7 +40,6 @@ class userModel
         } else {
             echo " ADMIN not found";
         }
-
         // now we check for the user.
         $user = " SELECT * FROM auth WHERE Role = 'user'";
         $userResult = $this->isConnect->query($user);
@@ -60,15 +55,11 @@ class userModel
                 ];
             }
         }
-
         foreach ($userlist as $user) {
             $varifyPassword = password_verify($password, $user['password']);
             var_dump($varifyPassword);
             if ($user['email'] == $email && $varifyPassword) {
-
-
-                // insert data in new table
-
+                $_SESSION['currentUserEmail'] = $email;
                 header("Location: /Game1/view/userHome.php ");
                 exit;
             }
@@ -105,16 +96,19 @@ class userModel
         }
     }
 
-    public function createUserDataTable(){
-        $date = date('r');
-        var_dump($date);
-        $table = ` CREATE TABLE IF NOT EXISTS userData(
-            Id INT(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-            Name VARCHAR(20) NOT NULL,
-            Time_Stamp 
-        )`;
-
-        $this->isConnect->query($table);
+    public function createUserDataTable()
+    {
+        $table = "CREATE TABLE IF NOT EXISTS userData(
+        Ranking INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        Email VARCHAR(40) NOT NULL,
+        Points INT(10)
+        )";
+        if ($this->isConnect->query($table)) {
+            echo "<script> console.log('table was not created.'); </script> ";
+        } else {
+            echo $this->isConnect->error;
+            "<script> console.log('*ERROR: userData table was not created.'); </script> ";
+        }
     }
 
     // create user
@@ -216,8 +210,70 @@ class userModel
             echo '<script> console.log("*ERROR: Does not update the rule."); </script>';
         }
     }
+
+    public function InsertUserData()
+    {
+        $email = $_SESSION['currentUserEmail'];
+
+        // varify that if already email present in db\
+        $varify = "SELECT Email FROM userData";
+        $varifiedEmail = $this->isConnect->query($varify);
+        $varifiedEmailRow = $varifiedEmail->fetch_assoc();
+        echo __LINE__; var_dump($varifiedEmailRow);
+        if ($varifiedEmailRow) {
+        } else {
+            // insert a email in the userData db. 
+            $insert = "INSERT INTO userData (Email) VALUES ('$email')";
+            if ($this->isConnect->query($insert)) {
+                echo " <script> console.log('Data was inserted into the userData database'); </script> ";
+            } else {
+                echo __LINE__ . $this->isConnect->error;
+                " <script> console.log('*ERROR: Data was not inserted into the userData database'); </script> ";
+            }
+        }
+
+        // find the rank of the user.
+        $rankOfUser = "SELECT Ranking FROM userData WHERE Email = '$email'";
+        $rankOfUserResult = $this->isConnect->query($rankOfUser);
+        $fetchedRank = $rankOfUserResult->fetch_assoc(); // here we get a rank of the user.
+        echo __LINE__; var_dump($fetchedRank);
+        if ($rankOfUserResult) {
+            echo " <script> console.log('sucessfully find the rank of the user.'); </script> ";
+        } else {
+            echo __LINE__ . $this->isConnect->error;
+            " <script> console.log('*ERROR: Does not find the rank of the user.'); </script> ";
+        }
+
+        // select the rules row based on the user rank. // ORDER BY Id DESC LIMIT 1
+        $row = "SELECT * FROM rules WHERE NumberOfPlayers <= '$fetchedRank'   ";
+        $rowResult = $this->isConnect->query($row);
+        $fetchRowFromRules = $rowResult->fetch_assoc(); // here we get a row from the rules table like ([NumberOfPlayers] => '' , [Points] => '')
+        if ($rowResult) {
+            echo " <script> console.log('select a row from the rules table based on the rank in the userData table.  '); </script> ";
+        } else {
+            echo __LINE__ . $this->isConnect->error;
+            echo " <script> console.log('*ERROR: does not be able to select a row from the rules table based on the rank in the userData table.'); </script> ";
+        }
+
+        $userpoint = $fetchRowFromRules['Points']; // user earned points
+
+        // TODO: solve an error to insert the points in the table
+        // insert the user earned point into the userData table.
+        // echo __LINE__;
+        // var_dump($email);
+        // $insertPoints = "INSERT INTO userData Points VALUES '$userpoint' WHERE Email = '$email' ";
+        // $insertPointsResult = $this->isConnect->query($insertPoints);
+        // echo __LINE__;
+        // var_dump($insertPointsResult);
+        // if ($insertPointsResult) {
+        //     echo " <script> console.log('Point is inserted sucessfully into the userData table. '); </script> ";
+        // } else {
+        //     $this->isConnect->error;
+        //     // echo " <script> console.log('*ERROR: Point is not inserted into the userData table. '); </script> ";
+        // }
+    }
 }
 
 
 $userModelObj = new userModel();
-$userModelObj->createUserDataTable();
+$userModelObj->InsertUserData();

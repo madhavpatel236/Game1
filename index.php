@@ -1,7 +1,9 @@
 <?php
+session_start();
 require('./constant.php');
 include __APPPATH__ . '/controller/authController.php';
 $_SESSION['isUserPresentAlready'] = false;
+$_SESSION['currentUserEmail'];
 
 ?>
 
