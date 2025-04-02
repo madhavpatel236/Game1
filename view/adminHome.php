@@ -58,12 +58,13 @@ include  __APPPATH__ . '/controller/adminController.php';
         count += 1;
         if (count >= 1) {
             var field = `
+            <div class='new_added_div${count}'  id='${count}'>
                 <div>
                     <input class='user_number' id = 'user_number${count}' type="number" />
                     <input class='points' id='points${count}' type="number" />
                     <input class='field_id' id='${count}' hidden />
                     <button onclick='removeFieldData(${count})'  class="remove_btn" id = '${count}'> - </button>
-            </div> <br/>`;
+            </div> <br/> </div>`;
             $('.add_div').append(field)
         };
     })
@@ -87,6 +88,9 @@ include  __APPPATH__ . '/controller/adminController.php';
             success: function(response) {
                 $('.user_number0').val("");
                 $('input').val("");
+                for (let i = 1; i <= count + 1; i++) {
+                    $(`.new_added_div${i}`).remove();
+                }
                 readRules();
             }
         })
@@ -181,10 +185,8 @@ include  __APPPATH__ . '/controller/adminController.php';
         })
     }
 
-
     function removeFieldData(id) {
-        $(`#user_number${id}`).val('');
-        $(`#points${id}`).val('');
+        $(`.new_added_div${id}`).remove();
     }
 </script>
 
