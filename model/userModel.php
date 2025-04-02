@@ -23,6 +23,7 @@ class userModel
 
         $this->createAuthTable();
         $this->createRulesTable();
+        $this->createUserDataTable();
     }
 
     public function authentication($email, $password)
@@ -64,6 +65,10 @@ class userModel
             $varifyPassword = password_verify($password, $user['password']);
             var_dump($varifyPassword);
             if ($user['email'] == $email && $varifyPassword) {
+
+
+                // insert data in new table
+
                 header("Location: /Game1/view/userHome.php ");
                 exit;
             }
@@ -98,6 +103,18 @@ class userModel
         } else {
             echo "<script> console.log('*ERROR: rules table was not created.'); </script> ";
         }
+    }
+
+    public function createUserDataTable(){
+        $date = date('r');
+        var_dump($date);
+        $table = ` CREATE TABLE IF NOT EXISTS userData(
+            Id INT(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+            Name VARCHAR(20) NOT NULL,
+            Time_Stamp 
+        )`;
+
+        $this->isConnect->query($table);
     }
 
     // create user
@@ -203,4 +220,4 @@ class userModel
 
 
 $userModelObj = new userModel();
-// $userModelObj->getAllRules();
+$userModelObj->createUserDataTable();
