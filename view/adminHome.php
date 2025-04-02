@@ -53,15 +53,17 @@ include  __APPPATH__ . '/controller/adminController.php';
 
     $('#add_fields_btn').click(function() {
         count += 1;
-        var field = `
+        if (count >= 1) {
+            var field = `
                 <div>
                     <input class='user_number' id = 'user_number${count}' type="number" />
                     <input class='points' id = 'points${count}' type="number" />
                     <input class='field_id' id='${count}' hidden />
                     <button  class="remove_btn" id = 'remove${count}'> - </button>
             </div> <br/>`;
-        $('.add_div').append(field);
-    })
+            $('.add_div').append(field)
+        };
+   })
 
 
     $('.submit_rule').click(function() {
@@ -70,7 +72,6 @@ include  __APPPATH__ . '/controller/adminController.php';
             let addPoints = $(`#points${i}`).val();
             userNumberArray[i] = userNumber;
             pointsArray[i] = addPoints;
-
         }
 
         $.ajax({
@@ -100,6 +101,8 @@ include  __APPPATH__ . '/controller/adminController.php';
                 var values = "";
                 if (user.length > 0) {
                     for (let i = 0; i <= user.length - 1; i++) {
+                        $(`#user_number${i}`).val(user[i].PlayerNumber);
+                        $(`#points${i}`).val(user[i].Points );
                         values += "<tr>";
                         values += "<td>" + i + "</td>";
                         values += "<td>" + user[i].PlayerNumber + "</td>";

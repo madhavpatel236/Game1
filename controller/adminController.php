@@ -5,6 +5,7 @@ class adminController
 {
     public $userModelObject;
     public $val1;
+    public $allRulesList;
 
     public function __construct()
     {
@@ -22,10 +23,9 @@ class adminController
 
     public function getAllRule()
     {
-        $data = $this->userModelObject->getAllRules();
-        // var_dump($data);
-        echo json_encode($data);
-        // return $data;
+        $this->allRulesList = $this->userModelObject->getAllRules();
+        // var_dump($this->allRulesList);
+        echo json_encode($this->allRulesList);
     }
 }
 
@@ -50,3 +50,4 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
 $adminControllerObj = new adminController();
+// $adminControllerObj->getAllRule();
