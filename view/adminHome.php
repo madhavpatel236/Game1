@@ -24,7 +24,7 @@ include  __APPPATH__ . '/controller/adminController.php';
     </div>
     <div class="div2">
         <input id="edit_id" type="hidden" />
-        <input name="user_number0" id="user_number0" class="user_number0" type="number" />
+        <input name="user_number0" id="user_number0" class="user_number0" type="number"     />
         <input name="points0" id="points0" class="points0" type="number" />
         <button class="add_fields_btn" id="add_fields_btn" name="add_fields_btn"> + </button>
     </div> <br />

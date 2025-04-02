@@ -61,9 +61,10 @@ class userModel
         }
 
         foreach ($userlist as $user) {
-            $varifyPassword = password_verify($password, $user['Password']);
+            $varifyPassword = password_verify($password, $user['password']);
+            var_dump($varifyPassword);
             if ($user['email'] == $email && $varifyPassword) {
-                header("Location: ./Game1/view/userHome.php ");
+                header("Location: /Game1/view/userHome.php ");
                 exit;
             }
         }
