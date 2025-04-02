@@ -150,6 +150,7 @@ class userModel
         if ($rulesResult->num_rows > 0) {
             while ($row = $rulesResult->fetch_assoc()) {
                 $responseArray[] = [
+                    'Id' => $row['Id'],
                     'PlayerNumber' => $row['NumberOfPlayers'],
                     'Points' => $row['Points']
                 ];
@@ -158,6 +159,44 @@ class userModel
         // print_r($responseArray);
         return $responseArray;
     }
+
+    public function deleteRules($id)
+    {
+        $delete = " DELETE FROM rules WHERE Id = '$id'";
+        if ($this->isConnect->query($delete)) {
+            // echo '<script> console.log(" Delete the rule sucessfully!! "); </script>';
+        } else {
+            echo '<script> console.log("*ERROR: Does not Delete the rule  "); </script>';
+        }
+    }
+
+    public function editRule($id)
+    {
+        $userData = "SELECT * FROM rules WHERE Id = '$id'";
+        $userDataResult = $this->isConnect->query($userData);
+
+        $userDataArray = [];
+
+        if ($userDataResult->num_rows > 0) {
+            while ($row = $userDataResult->fetch_assoc()) {
+                $userDataArray[] = [
+                    'Id' => $row['Id'],
+                    'NumberOfPlayers' => $row['NumberOfPlayers'],
+                    'Points' => $row['Points']
+                ];
+            }
+        }
+        return $userDataArray;
+    }
+
+    // public function updateRule($numberOfPlayers, $points, $id)
+    // {
+    //     $update = "UPDATE rules (NumberOfPlayers, Points) VALUES ('$numberOfPlayers', '$points') WHERE Id = '$id'";
+    //     $isUpdate = $this->isConnect->query($update);
+    //     if (!$isUpdate) {
+    //         echo '<script> console.log("*ERROR: Does not update the rule."); </script>';
+    //     }
+    // }
 }
 
 

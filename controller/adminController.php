@@ -27,6 +27,27 @@ class adminController
         // var_dump($this->allRulesList);
         echo json_encode($this->allRulesList);
     }
+
+    public function delete()
+    {
+        $id = $_POST['Id'];
+        // var_dump($id);
+        return $this->userModelObject->deleteRules($id);
+    }
+    public function edit()
+    {
+        $id = $_POST['Id'];
+        $data = $this->userModelObject->editRule($id);
+        echo json_encode($data);
+    }
+
+    // public function update()
+    // {
+    //     $numberOfPlayers = $_POST['numberOfPlayers'];
+    //     $points = $_POST['points'];
+    //     $id = $_POST['id'];
+    //     $this->userModelObject->updateRule($numberOfPlayers, $points, $id);
+    // }
 }
 
 
@@ -42,8 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             case 'read':
                 $adminControllerObj->getAllRule();
                 break;
-                // case 'remove':
-                //     $adminControllerObj->removeData();
+            case 'delete':
+                $adminControllerObj->delete();
+            case 'edit':
+                $adminControllerObj->edit();
+            // case 'update':
+            //     $adminControllerObj->update();
         }
     };
 }
