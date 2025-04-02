@@ -189,14 +189,15 @@ class userModel
         return $userDataArray;
     }
 
-    // public function updateRule($numberOfPlayers, $points, $id)
-    // {
-    //     $update = "UPDATE rules (NumberOfPlayers, Points) VALUES ('$numberOfPlayers', '$points') WHERE Id = '$id'";
-    //     $isUpdate = $this->isConnect->query($update);
-    //     if (!$isUpdate) {
-    //         echo '<script> console.log("*ERROR: Does not update the rule."); </script>';
-    //     }
-    // }
+    public function updateRule($numberOfPlayers, $points, $id)
+    {
+        $update = "UPDATE rules SET NumberOfPlayers = '$numberOfPlayers', Points = '$points' WHERE Id = '$id'";
+        $isUpdate = $this->isConnect->query($update);
+        if ($isUpdate) {
+        } else {
+            echo '<script> console.log("*ERROR: Does not update the rule."); </script>';
+        }
+    }
 }
 
 

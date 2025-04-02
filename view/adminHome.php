@@ -60,14 +60,13 @@ include  __APPPATH__ . '/controller/adminController.php';
             var field = `
                 <div>
                     <input class='user_number' id = 'user_number${count}' type="number" />
-                    <input class='points' id = 'points${count}' type="number" />
+                    <input class='points' id='points${count}' type="number" />
                     <input class='field_id' id='${count}' hidden />
-                    <button  class="remove_btn" id = 'remove${count}'> - </button>
+                    <button onclick='removeFieldData(${count})'  class="remove_btn" id = '${count}'> - </button>
             </div> <br/>`;
             $('.add_div').append(field)
         };
     })
-
 
     $('.submit_rule').click(function() {
         for (let i = 0; i <= count; i++) {
@@ -88,6 +87,29 @@ include  __APPPATH__ . '/controller/adminController.php';
             success: function(response) {
                 $('.user_number0').val("");
                 $('input').val("");
+                readRules();
+            }
+        })
+    })
+
+    $('#update_rule').click(function() {
+        var NumberOfPlayers = $('#user_number0').val();
+        var Points = $('#points0').val();
+        var Id = $('#edit_id').val();
+        $.ajax({
+            url: '../controller/adminController.php',
+            type: 'POST',
+            data: {
+                action: "update",
+                id: Id,
+                numberOfPlayers: NumberOfPlayers,
+                points: Points
+            },
+            success: function(response) {
+                // alert(response);
+                // console.log(response);
+                $('#user_number0').val('');
+                $('#points0').val('');
                 readRules();
             }
         })
@@ -147,36 +169,23 @@ include  __APPPATH__ . '/controller/adminController.php';
             },
             success: function(response) {
                 var user = JSON.parse(response);
-                console.log(user[0]);
+                // console.log(user[0]);
                 $('#user_number0').val(user[0].NumberOfPlayers);
                 $('#points0').val(user[0].Points);
                 $('#edit_id').val(user[0].Id);
                 $('#update_rule').show();
                 $('.submit_rule').hide();
+                $('#add_fields_btn').hide();
 
             }
         })
     }
 
-    // $('#update_rule').click(function() {
-    //     let NumberOfPlayers = $('#user_number0').val();
-    //     let Points = $('#points0').val();
-    //     let Id = $('#edit_id').val();
-    //     $.ajax({
-    //         url: '../controller/adminController.php',
-    //         type: 'POST',
-    //         data: {
-    //             action: "update",
-    //             id: Id,
-    //             numberOfPlayers: NumberOfPlayers,
-    //             points: Points
-    //         },
-    //         success: function(response) {
-    //             alert(response);
-    //             editRule();
-    //         }
-    //     })
-    // })
+
+    function removeFieldData(id) {
+        $(`#user_number${id}`).val('');
+        $(`#points${id}`).val('');
+    }
 </script>
 
 </html>

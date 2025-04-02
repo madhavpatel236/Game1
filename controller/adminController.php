@@ -41,13 +41,14 @@ class adminController
         echo json_encode($data);
     }
 
-    // public function update()
-    // {
-    //     $numberOfPlayers = $_POST['numberOfPlayers'];
-    //     $points = $_POST['points'];
-    //     $id = $_POST['id'];
-    //     $this->userModelObject->updateRule($numberOfPlayers, $points, $id);
-    // }
+    public function update()
+    {
+        $numberOfPlayers = $_POST['numberOfPlayers'];
+        $points = $_POST['points'];
+        $id = $_POST['id'];
+        // echo json_encode('hiihii');
+        return $this->userModelObject->updateRule($numberOfPlayers, $points, $id);
+    }
 }
 
 
@@ -65,10 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 break;
             case 'delete':
                 $adminControllerObj->delete();
+                break;
             case 'edit':
                 $adminControllerObj->edit();
-            // case 'update':
-            //     $adminControllerObj->update();
+                break;
+            case 'update':
+                $adminControllerObj->update();
+                break;
         }
     };
 }
