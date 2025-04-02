@@ -145,16 +145,21 @@ class userModel
         $rules = "SELECT * FROM rules";
         $rulesResult = $this->isConnect->query($rules);
 
-        if ($rulesResult) {
-            return $rulesResult;
-        } else {
-            echo "<script> console.log('*ERROR: Does not get all the user. ');  </script>";
-            return false;
+        $responseArray = [];
+
+        if ($rulesResult->num_rows > 0) {
+            while ($row = $rulesResult->fetch_assoc()) {
+                $responseArray[] = [
+                    'PlayerNumber' => $row['NumberOfPlayers'],
+                    'Points' => $row['Points']
+                ];
+            }
         }
-        return $rulesResult;
+        // print_r($responseArray);
+        return $responseArray;
     }
 }
 
 
 $userModelObj = new userModel();
-// $userModelObj->createUser('madhav1', 'madhav1gmail.com', 'test123', 'user');
+// $userModelObj->getAllRules();

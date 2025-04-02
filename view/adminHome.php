@@ -32,15 +32,26 @@ include  __APPPATH__ . '/controller/adminController.php';
 
     <button name="submit_rule" class="submit_rule">Add</button>
     <div class='common_error'></div>
+
+    <table class="list_rules" border=2>
+        <tr>
+            <th>No.</th>
+            <th> Number of Players </th>
+            <th> Points </th>
+        </tr>
+        <tbody id="data_body"></tbody>
+    </table>
+
 </body>
 
 <script>
+    readRules(); // TODO: add after all the btn click res end.
+
     var count = 0;
     var userNumberArray = [];
     var pointsArray = [];
 
     $('#add_fields_btn').click(function() {
-        readRules(); // TODO: add after all the btn click res end.
         count += 1;
         var field = `
                 <div>
@@ -61,8 +72,6 @@ include  __APPPATH__ . '/controller/adminController.php';
             pointsArray[i] = addPoints;
 
         }
-        // console.log(userNumberArray);
-        // console.log(pointsArray);
 
         $.ajax({
             url: '../controller/adminController.php',
@@ -73,26 +82,35 @@ include  __APPPATH__ . '/controller/adminController.php';
                 Points: pointsArray,
             },
             success: function(response) {
-                // alert(response);
+                readRules();
             }
         })
     })
-
-    // $('.remove_btn').click(function() {})
 
     function readRules() {
         $.ajax({
             url: '../controller/adminController.php',
             type: 'POST',
             data: {
-                action: "read"
+                action: "read",
             },
             success: function(response) {
-                console.log(response);
+                var user = JSON.parse(response);
+                // console.log(user[1].Points); debugger;
+                var values = "";
+                if (user.length > 0) {
+                    for (let i = 0; i <= user.length - 1; i++) {
+                        values += "<tr>";
+                        values += "<td>" + i + "</td>";
+                        values += "<td>" + user[i].PlayerNumber + "</td>";
+                        values += "<td>" + user[i].Points + "</td>";
+                        values += "</tr>";
+                        $('#data_body').html(values);
+                    }
+                }
             }
         })
     }
-
 </script>
 
 </html>
