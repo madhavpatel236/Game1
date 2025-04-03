@@ -35,7 +35,7 @@ class userModel
             if ($email == $row['Email'] && $varifyPassword) {
                 echo "<script> console.log('Admin fatched sucessfully!') </script>";
                 $_SESSION['isLogin'] = true;
-                $_SESSION['role'] = 'admin' ;
+                $_SESSION['role'] = 'admin';
                 header('Location: /Game1/view/adminHome.php ');
                 exit;
             }
@@ -60,11 +60,11 @@ class userModel
         }
         foreach ($userlist as $user) {
             $varifyPassword = password_verify($password, $user['password']);
-            var_dump($varifyPassword);
+            // var_dump($varifyPassword);
             if ($user['email'] == $email && $varifyPassword) {
                 $_SESSION['currentUserEmail'] = $email;
                 $_SESSION['isLogin'] = true;
-                $_SESSION['role'] = 'user' ;
+                $_SESSION['role'] = 'user';
                 header("Location: /Game1/view/userHome.php ");
                 exit;
             } else {
@@ -134,7 +134,7 @@ class userModel
             if ($this->isConnect->query($newUser)) {
                 echo "<script> console.log('user Addded into the auth table.'); </script>";
                 $_SESSION['isLogin'] = true;
-                $_SESSION['role'] = 'user' ;
+                $_SESSION['role'] = 'user';
                 header("Location: /Game1/view/userHome.php");
                 exit;
             } else {
@@ -320,6 +320,21 @@ class userModel
         }
         return $tableDataArray;
     }
+    
+    public function isTestCompleted()
+    {
+        $currentUserEmail = $_SESSION['currentUserEmail'];
+    //    echo __LINE__; var_dump($_SESSION['currentUserEmail']);
+        $find = "SELECT Email FROM userData WHERE Email = '$currentUserEmail'";
+        $findResult = $this->isConnect->query($find);
+        // echo __LINE__; var_dump($findResult->num_rows > 0);
+        
+        if ($findResult->num_rows > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 $userModelObj = new userModel();
-// $userModelObj->userRankTable();
+// var_dump($userModelObj->isTestCompleted());

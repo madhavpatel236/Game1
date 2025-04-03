@@ -23,6 +23,7 @@ if ($_SESSION['isLogin'] != true) {
     <form method="post">
         <button type="submit" class="logout_btn" name="logout_btn"> Logout </button>
     </form>
+    <h3 id="complete_message" style="display: none;" > Quiz was completed by you. </h3>
     <form id="quizeForm" method="post">
         <h2> Questions </h2>
         <div>
@@ -68,8 +69,9 @@ if ($_SESSION['isLogin'] != true) {
 </body>
 
 <script>
+    userTestStatus();
     readUser();
-
+    
     function readUser() {
         $.ajax({
             url: '../controller/userController.php',
@@ -93,6 +95,24 @@ if ($_SESSION['isLogin'] != true) {
                         $('#tableBody').html(values);
                     }
                 }
+            }
+        })
+    }
+
+    function userTestStatus() {
+        $.ajax({
+            url: '../controller/userController.php',
+            type: "POST",
+            data: {
+                action: 'testStatus'
+            },
+            success: function(response) {
+                var user = JSON.parse(response);
+                console.log(user);
+                    if (user == false) {
+                        $('#quizeForm').hide();
+                        $('#complete_message').show()
+                    }   
             }
         })
     }

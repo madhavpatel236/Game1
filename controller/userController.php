@@ -51,6 +51,13 @@ class userController
         $data = $this->userModelObj->userRankTable();
         echo json_encode($data);
     }
+
+    public function userTestStatus()
+    {
+        $data =  $this->userModelObj->isTestCompleted();
+        echo json_encode($data);
+        return $data;
+    }
 }
 
 
@@ -74,6 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         switch ($action) {
             case 'read':
                 $userControllerObj->showResult();
+                break;
+            case 'testStatus':
+                $userControllerObj->userTestStatus();
                 break;
         }
     }
