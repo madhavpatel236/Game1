@@ -104,10 +104,10 @@ class userModel
         Points VARCHAR(10)
         )";
         if ($this->isConnect->query($table)) {
-            echo "<script> console.log('table was not created.'); </script> ";
+            // echo "<script> console.log('table was not created.'); </script> ";
         } else {
             echo $this->isConnect->error;
-            "<script> console.log('*ERROR: userData table was not created.'); </script> ";
+            // "<script> console.log('*ERROR: userData table was not created.'); </script> ";
         }
     }
 
