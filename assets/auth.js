@@ -60,7 +60,6 @@ $(document).ready(function () {
   });
 });
 
-
 //  ------------------ adminHome validation ---------------------
 
 // $(document).ready(function(){
@@ -75,7 +74,7 @@ $(document).ready(function () {
 
 //   $('.submit_rule').click(function(){
 //     if(!isValidate){
-//       return; 
+//       return;
 //     }
 //   })
 // })

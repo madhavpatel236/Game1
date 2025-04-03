@@ -212,15 +212,17 @@ class userModel
     }
 
     public function InsertUserData()
-    // TODO: unset the SESSION['currentUserEmail'] because other email was not taken.
     {
         $email = $_SESSION['currentUserEmail'];
-        echo __LINE__ ; var_dump($email); echo "<br/>";
+        echo __LINE__;
+        var_dump($email);
+        echo "<br/>";
 
         // varify that if already email present in db
         $varify = "SELECT Email FROM userData WHERE Email = '$email'";
         $varifiedEmail = $this->isConnect->query($varify);
         $varifiedEmailRow = $varifiedEmail->fetch_assoc();
+        
         echo __LINE__;
         var_dump($varifiedEmailRow);
         echo "<br/>";
@@ -241,7 +243,9 @@ class userModel
         $rankOfUserResult = $this->isConnect->query($rankOfUser);
         $fetch = $rankOfUserResult->fetch_assoc(); // here we get a rank of the user.
         $fetchedRank = $fetch['Ranking'];
-        echo __LINE__; var_dump($fetchedRank); echo "<br/>";
+        echo __LINE__;
+        var_dump($fetchedRank);
+        echo "<br/>";
         if ($rankOfUserResult) {
             echo " <script> console.log('sucessfully find the rank of the user.'); </script> ";
         } else {
@@ -255,7 +259,9 @@ class userModel
         $row = "SELECT * FROM rules WHERE NumberOfPlayers >= '$fetchedRank' ORDER BY NumberOfPlayers LIMIT 1 ";
         $rowResult = $this->isConnect->query($row);
         $fetchRowFromRules = $rowResult->fetch_assoc(); // here we get a row from the rules table like ([NumberOfPlayers] => '' , [Points] => '')
-        echo __LINE__; var_dump($fetchRowFromRules); echo "<br/>";
+        echo __LINE__;
+        var_dump($fetchRowFromRules);
+        echo "<br/>";
         if ($rowResult) {
             echo " <script> console.log('select a row from the rules table based on the rank in the userData table.  '); </script> ";
         } else {
@@ -267,21 +273,23 @@ class userModel
 
         // insert the user earned point into the userData table.
         echo __LINE__;
-        var_dump($email); echo "<br/>";
+        var_dump($email);
+        echo "<br/>";
         $insertPoints = " UPDATE userData SET Points = $userpoint WHERE Email = '$email'";
         $insertPointsResult = $this->isConnect->query($insertPoints);
         echo __LINE__;
-        var_dump($insertPointsResult); echo "<br/>";
+        var_dump($insertPointsResult);
+        echo "<br/>";
         if ($insertPointsResult) {
             // $_SESSION['currentUserEmail'] = '';
             echo " <script> console.log('Point is inserted sucessfully into the userData table. '); </script> ";
         } else {
             $this->isConnect->error;
-            // echo " <script> console.log('*ERROR: Point is not inserted into the userData table. '); </script> ";
+            echo " <script> console.log('*ERROR: Point is not inserted into the userData table. '); </script> ";
         }
     }
 }
 
 
 $userModelObj = new userModel();
-$userModelObj->InsertUserData();
+// $userModelObj->InsertUserData();
