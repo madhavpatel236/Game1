@@ -29,6 +29,14 @@ class userModel
 
     public function authentication($email, $password)
     {
+
+        $isEmailPresent = "SELECT * FROM auth WHERE Email = '$email'";
+        $isEmailPresentRes = $this->isConnect->query($isEmailPresent);
+        // var_dump($isEmailPresentRes->num_rows);
+        if($isEmailPresentRes->num_rows == 0){
+            $_SESSION['Credential_error']  = true;
+        }
+
         $admin = "SELECT * FROM auth WHERE Role = 'admin'";
         $adminData = $this->isConnect->query($admin);
         // admin auth

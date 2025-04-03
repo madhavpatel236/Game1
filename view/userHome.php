@@ -56,7 +56,7 @@ if ($_SESSION['isLogin'] != true) {
         <button name="submit_btn" class="submit_btn"> Submit </button>
     </form>
 
-    <table name="rankTable" id="rankTable" class="rankTable" border="2">
+    <table style="display: none;" name="rankTable" id="rankTable" class="rankTable" border="2">
         <tr id="table_header">
             <th>Rank</th>
             <th>Name</th>
@@ -86,6 +86,7 @@ if ($_SESSION['isLogin'] != true) {
                 var values = '';
 
                 if (user.length > 0) {
+                    $('#rankTable').show();
                     for (let i = 0; i < user.length; i++) {
                         values += '<tr>';
                         values += "<td>" + (user[i].Rank) + "</td> ";
@@ -94,6 +95,9 @@ if ($_SESSION['isLogin'] != true) {
                         values += '</tr>';
                         $('#tableBody').html(values);
                     }
+                } else{
+                    $('#rankTable').hide();
+
                 }
             }
         })

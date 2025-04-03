@@ -41,7 +41,10 @@ class authController
                 $this->errors['general_error'] = "User already present, please use different email address.";
                 $this->isValid = false;
             }
-            if($this->isValid != false){
+            if ($_SESSION['Credential_error']  = true) {
+                $this->errors['general_error'] = " User was not found, please register your self first.";
+            }
+            if ($this->isValid != false) {
                 return false;
             }
         }
