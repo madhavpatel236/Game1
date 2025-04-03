@@ -15,7 +15,7 @@ include __APPPATH__ . '/controller/userController.php';
 
 <body>
     <form id="quizeForm" method="post">
-        <h2> Question </h2>
+        <h2> Questions </h2>
         <div>
             <h4> Question:1 -> Which is Your favorite IPL team? </h4>
             <input name="question1" id="question1" type="text" />
@@ -45,6 +45,48 @@ include __APPPATH__ . '/controller/userController.php';
         <div id="question_error"> </div>
         <button name="submit_btn" class="submit_btn"> Submit </button>
     </form>
+
+    <table name="rankTable" id="rankTable" class="rankTable" border="2">
+        <tr id="table_header">
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Points</th>
+        </tr>
+        <tbody class="tableBody" name="tableBody" id="tableBody">
+
+        </tbody>
+    </table>
 </body>
+
+<script>
+    readUser();
+
+    function readUser() {
+        $.ajax({
+            url: '../controller/userController.php',
+            type: 'POST',
+            data: {
+                action: 'read'
+            },
+            success: function(response) {
+                // alert(response);
+                // alert(user[1]);
+                var user = JSON.parse(response);
+                var values = '';
+
+                if (user.length > 0) {
+                    for (let i = 0; i < user.length ; i++) {
+                        values += '<tr>';
+                        values += "<td>" + (user[i].Rank) + "</td> ";
+                        values += "<td>" + user[i].Name + "</td> ";
+                        values += "<td>" + user[i].Points + "</td> ";
+                        values += '</tr>';
+                        $('#tableBody').html(values);
+                    }
+                }
+            }
+        })
+    }
+</script>
 
 </html>

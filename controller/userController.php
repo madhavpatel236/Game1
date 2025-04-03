@@ -45,13 +45,31 @@ class userController
     {
         $this->userModelObj->InsertUserData();
     }
+
+    public function showResult()
+    {
+        $data = $this->userModelObj->userRankTable();
+        // return $data;
+        echo json_encode($data);
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
     $userControllerObj = new userController();
     if (isset($_POST['submit_btn'])) {
         $userControllerObj->insertData();
     }
+
+    if (isset($_POST['action'])) {
+        $action = $_POST['action'];
+        switch ($action) {
+            case 'read':
+                $userControllerObj->showResult();
+                break;
+        }
+    }
 }
+
 
 $userControllerObj = new userController();

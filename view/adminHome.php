@@ -127,7 +127,7 @@ include  __APPPATH__ . '/controller/adminController.php';
                 action: "read",
             },
             success: function(response) {
-                console.log(response); debugger;
+                // console.log(response); debugger;
                 var user = JSON.parse(response);
                 // console.log(user[1].Points); debugger;
                 var values = "";
