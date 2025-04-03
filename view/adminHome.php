@@ -14,7 +14,7 @@ include  __APPPATH__ . '/controller/adminController.php';
     <title>Admin Home</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
-    <!-- <script src="./assets/auth.js" ></script> -->
+    <script src="../assets/adminAuth.js" ></script>
 </head>
 
 <body>
@@ -26,6 +26,7 @@ include  __APPPATH__ . '/controller/adminController.php';
         <input id="edit_id" type="hidden" />
         <input name="user_number0" id="user_number0" class="user_number0" type="number" />
         <input name="points0" id="points0" class="points0" type="number" />
+        <div id="common_error"></div>
         <button class="add_fields_btn" id="add_fields_btn" name="add_fields_btn"> + </button>
     </div> <br />
 
