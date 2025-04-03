@@ -56,6 +56,7 @@ if ($_SESSION['isLogin'] != true) {
 
     <button name="show_leaderbord" id="show_leaderbord" class="show_leaderbord"> Show Leaderbord </button>
     <button name="hide_leaderbord" id="hide_leaderbord" class="hide_leaderbord" style="display: none;" > Hide Leaderbord</button>
+    <h4 style="display: none;" class="leaderbordEmpty_message"> No user completed the  </h4>
     <table id="leaderboard" border=1 style="display: none;">
         <tr>
             <th>Rank</th>
@@ -149,9 +150,9 @@ if ($_SESSION['isLogin'] != true) {
             success: function(response) {
                 var user = JSON.parse(response);
                 var values = '';
-                $('#leaderboard').show();
-
+                
                 if (user.length > 0) {
+                    $('#leaderboard').show();
                     for (let i = 0; i < user.length; i++) {
                         values += '<tr>';
                         values += "<td>" + user[i].Rank + "</td> ";
@@ -162,6 +163,10 @@ if ($_SESSION['isLogin'] != true) {
                         $('#hide_leaderbord').show();
                         $('#show_leaderbord').hide();
                     }
+                } else {
+                    $('.leaderbordEmpty_message').show();
+                    $('#hide_leaderbord').show();
+                    $('#show_leaderbord').hide();
                 }
 
             }
@@ -170,6 +175,7 @@ if ($_SESSION['isLogin'] != true) {
 
     $('#hide_leaderbord').click(function(){
         $('#leaderboard').hide();
+        $('.leaderbordEmpty_message').hide();
         $('#hide_leaderbord').hide()
         $('#show_leaderbord').show()
     })
