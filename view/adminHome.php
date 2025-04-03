@@ -55,13 +55,15 @@ if ($_SESSION['isLogin'] != true) {
     </table>
 
     <button name="show_leaderbord" id="show_leaderbord" class="show_leaderbord"> Show Leaderbord </button>
+    <button name="hide_leaderbord" id="hide_leaderbord" class="hide_leaderbord" style="display: none;" > Hide Leaderbord</button>
     <table id="leaderboard" border=1 style="display: none;">
         <tr>
             <th>Rank</th>
             <th>Name</th>
             <th>Points</th>
         </tr>
-        <tbody id="leaderboardData"></tbody>
+        <tbody id="leaderboardData">
+        </tbody>
     </table>
 </body>
 
@@ -157,11 +159,19 @@ if ($_SESSION['isLogin'] != true) {
                         values += "<td>" + user[i].Points + "</td> ";
                         values += '</tr>';
                         $('#leaderboardData').html(values);
+                        $('#hide_leaderbord').show();
+                        $('#show_leaderbord').hide();
                     }
                 }
 
             }
         })
+    })
+
+    $('#hide_leaderbord').click(function(){
+        $('#leaderboard').hide();
+        $('#hide_leaderbord').hide()
+        $('#show_leaderbord').show()
     })
 
     function readRules() {
