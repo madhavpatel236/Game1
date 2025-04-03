@@ -190,7 +190,7 @@ if ($_SESSION['isLogin'] != true) {
                     for (let i = 0; i <= user.length - 1; i++) {
                         // $(`#user_number${i}`).val(user[i].PlayerNumber);
                         // $(`#points${i}`).val(user[i].Points);
-                        values += "<tr>";
+                        values += "<tr " + " " + 'class =' + user[i].Id + ">";
                         values += "<input  " + " " + 'id =' + user[i].Id + " " + 'type=hidden' + " /> ";
                         values += "<td>" + (i + 1) + "</td>";
                         values += "<td>" + user[i].PlayerNumber + "</td>";
@@ -215,6 +215,7 @@ if ($_SESSION['isLogin'] != true) {
             success: function(response) {
                 // alert(response);
                 readRules();
+                $(`.${id}`).hide();
             }
         })
     }
