@@ -61,6 +61,12 @@ class adminController
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $adminControllerObj = new adminController();
 
+    if (isset($_POST['logout_btn'])) {
+        $_SESSION['isUserPresentAlready'] = false;
+        $_SESSION['currentUserEmail'] = '';
+        $_SESSION['isLogin'] = false;
+    }
+
     if (isset($_POST['action'])) {
         $action = $_POST['action'];
         switch ($action) {

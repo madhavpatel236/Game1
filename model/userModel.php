@@ -34,11 +34,14 @@ class userModel
             $varifyPassword = password_verify($password, $row['Password']);
             if ($email == $row['Email'] && $varifyPassword) {
                 echo "<script> console.log('Admin fatched sucessfully!') </script>";
+                $_SESSION['isLogin'] = true;
+                $_SESSION['role'] = 'admin' ;
                 header('Location: /Game1/view/adminHome.php ');
                 exit;
             }
         } else {
             echo " ADMIN not found";
+            $_SESSION['isLogin'] = false;
         }
         // now we check for the user.
         $user = " SELECT * FROM auth WHERE Role = 'user'";
@@ -60,8 +63,12 @@ class userModel
             var_dump($varifyPassword);
             if ($user['email'] == $email && $varifyPassword) {
                 $_SESSION['currentUserEmail'] = $email;
+                $_SESSION['isLogin'] = true;
+                $_SESSION['role'] = 'user' ;
                 header("Location: /Game1/view/userHome.php ");
                 exit;
+            } else {
+                $_SESSION['isLogin'] = false;
             }
         }
     }
@@ -126,9 +133,12 @@ class userModel
             $newUser = "INSERT INTO auth (Name, Email, Password, Role) VALUES ( '$name' , '$email', '$hashPassword', '$role' ) ";
             if ($this->isConnect->query($newUser)) {
                 echo "<script> console.log('user Addded into the auth table.'); </script>";
+                $_SESSION['isLogin'] = true;
+                $_SESSION['role'] = 'user' ;
                 header("Location: /Game1/view/userHome.php");
                 exit;
             } else {
+                $_SESSION['isLogin'] = false;
                 echo $this->isConnect->error;
                 "<script> console.log('*ERROR: user was not enter in the auth table.'); </script>";
             }

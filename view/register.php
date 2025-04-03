@@ -3,6 +3,7 @@
 require('../constant.php');
 include __APPPATH__ . '/controller/authController.php';
 // var_dump($GLOBALS);
+
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +35,8 @@ include __APPPATH__ . '/controller/authController.php';
         <span name='password_error' id="password_error"> <?php echo $authControllerObj->errors['password_error']; ?> </span> <br /> <br />
         <span> <?php echo $authControllerObj->errors['general_error']; ?> </span> <br/> <br/>
         <button name="register_btn"> Register </button>
+        <a href="../index.php" > Login </a>
+
     </form>
 </body>
 

@@ -2,6 +2,11 @@
 require('../constant.php');
 include  __APPPATH__ . '/controller/adminController.php';
 // var_dump($GLOBALS);
+
+if ($_SESSION['isLogin'] !== true) {
+    header("Location: ../index.php");
+    exit;
+}
 ?>
 
 
@@ -18,6 +23,7 @@ include  __APPPATH__ . '/controller/adminController.php';
 </head>
 
 <body>
+    <button class="logout_btn" name="logout_btn"> Logout </button>
     <div class="div1">
         <span class="heading1" style="padding-right: 100px;"> Users Number </span>
         <span class="heading2"> Points </span>

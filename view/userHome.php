@@ -1,6 +1,12 @@
 <?php
 require('../constant.php');
 include __APPPATH__ . '/controller/userController.php';
+
+if ($_SESSION['isLogin'] !== true) {
+    header("Location: ../index.php ");
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +81,7 @@ include __APPPATH__ . '/controller/userController.php';
                 var values = '';
 
                 if (user.length > 0) {
-                    for (let i = 0; i < user.length ; i++) {
+                    for (let i = 0; i < user.length; i++) {
                         values += '<tr>';
                         values += "<td>" + (user[i].Rank) + "</td> ";
                         values += "<td>" + user[i].Name + "</td> ";
@@ -87,8 +93,6 @@ include __APPPATH__ . '/controller/userController.php';
             }
         })
     }
-
-    
 </script>
 
 </html>

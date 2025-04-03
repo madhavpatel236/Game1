@@ -1,8 +1,6 @@
 <?php
 include('../constant.php');
-// include '../model/userModel.php';
 include __APPPATH__ . '/model/userModel.php';
-// var_dump($GLOBALS);
 
 class authController
 {
