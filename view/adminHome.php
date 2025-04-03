@@ -44,7 +44,7 @@ if ($_SESSION['isLogin'] != true) {
     <button id="update_rule" name="update_rule" style="display:none;">Update</button>
     <div class='common_error'></div>
 
-    <table class="list_rules" border=2>
+    <table style="display: none;" class="list_rules" border=2>
         <tr>
             <th>No.</th>
             <th> Number of Players </th>
@@ -188,11 +188,10 @@ if ($_SESSION['isLogin'] != true) {
                 action: "read",
             },
             success: function(response) {
-                // console.log(response); debugger;
                 var user = JSON.parse(response);
-                // console.log(user[1].Points); debugger;
                 var values = "";
                 if (user.length > 0) {
+                    $('.list_rules').show();
                     for (let i = 0; i <= user.length - 1; i++) {
                         // $(`#user_number${i}`).val(user[i].PlayerNumber);
                         // $(`#points${i}`).val(user[i].Points);
