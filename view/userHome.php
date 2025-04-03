@@ -2,7 +2,7 @@
 require('../constant.php');
 include __APPPATH__ . '/controller/userController.php';
 
-if ($_SESSION['isLogin'] !== true) {
+if ($_SESSION['isLogin'] != true) {
     header("Location: ../index.php ");
     exit;
 }
@@ -20,6 +20,9 @@ if ($_SESSION['isLogin'] !== true) {
 </head>
 
 <body>
+    <form method="post">
+        <button type="submit" class="logout_btn" name="logout_btn"> Logout </button>
+    </form>
     <form id="quizeForm" method="post">
         <h2> Questions </h2>
         <div>

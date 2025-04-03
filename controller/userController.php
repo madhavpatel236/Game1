@@ -49,14 +49,22 @@ class userController
     public function showResult()
     {
         $data = $this->userModelObj->userRankTable();
-        // return $data;
         echo json_encode($data);
     }
 }
 
+
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $userControllerObj = new userController();
+
+    if (isset($_POST['logout_btn'])) {
+        $_SESSION['isLogin'] = false;
+        header("Location: /Game1/index.php");
+        exit;
+    }
+
     if (isset($_POST['submit_btn'])) {
         $userControllerObj->insertData();
     }

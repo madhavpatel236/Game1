@@ -63,9 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (isset($_POST['logout_btn'])) {
         $_SESSION['isUserPresentAlready'] = false;
-        $_SESSION['currentUserEmail'] = '';
         $_SESSION['isLogin'] = false;
+        $_SESSION['currentUserEmail'] = '';
+        header("Location: /Game1/index.php");
+        exit;
     }
+
 
     if (isset($_POST['action'])) {
         $action = $_POST['action'];

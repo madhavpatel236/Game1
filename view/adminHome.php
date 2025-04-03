@@ -3,7 +3,7 @@ require('../constant.php');
 include  __APPPATH__ . '/controller/adminController.php';
 // var_dump($GLOBALS);
 
-if ($_SESSION['isLogin'] !== true) {
+if ($_SESSION['isLogin'] != true) {
     header("Location: ../index.php");
     exit;
 }
@@ -19,11 +19,13 @@ if ($_SESSION['isLogin'] !== true) {
     <title>Admin Home</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
-    <script src="../assets/adminAuth.js" ></script>
+    <script src="../assets/adminAuth.js"></script>
 </head>
 
 <body>
-    <button class="logout_btn" name="logout_btn"> Logout </button>
+    <form method="post">
+        <button type="submit" class="logout_btn" name="logout_btn"> Logout </button>
+    </form>
     <div class="div1">
         <span class="heading1" style="padding-right: 100px;"> Users Number </span>
         <span class="heading2"> Points </span>
@@ -53,14 +55,14 @@ if ($_SESSION['isLogin'] !== true) {
     </table>
 
     <button name="show_leaderbord" id="show_leaderbord" class="show_leaderbord"> Show Leaderbord </button>
-        <table id="leaderboard" border=1 style="display: none;">
-            <tr>
-                <th>Rank</th>
-                <th>Name</th>
-                <th>Points</th>
-            </tr>
-            <tbody id="leaderboardData"></tbody>
-        </table>
+    <table id="leaderboard" border=1 style="display: none;">
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Points</th>
+        </tr>
+        <tbody id="leaderboardData"></tbody>
+    </table>
 </body>
 
 <script>
@@ -148,7 +150,7 @@ if ($_SESSION['isLogin'] !== true) {
                 $('#leaderboard').show();
 
                 if (user.length > 0) {
-                    for (let i = 0; i < user.length ; i++) {
+                    for (let i = 0; i < user.length; i++) {
                         values += '<tr>';
                         values += "<td>" + user[i].Rank + "</td> ";
                         values += "<td>" + user[i].Name + "</td> ";

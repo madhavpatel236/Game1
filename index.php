@@ -4,7 +4,7 @@ require('./constant.php');
 include __APPPATH__ . '/controller/authController.php';
 $_SESSION['isUserPresentAlready'] = false;
 $_SESSION['currentUserEmail'];
-$_SESSION['isLogin']    ;
+$_SESSION['isLogin'];
 $_SESSION['role'];
 
 if ($_SESSION['isLogin'] == true && $_SESSION['role'] == 'admin') {
