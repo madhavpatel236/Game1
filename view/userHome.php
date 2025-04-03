@@ -87,6 +87,8 @@ include __APPPATH__ . '/controller/userController.php';
             }
         })
     }
+
+    
 </script>
 
 </html>

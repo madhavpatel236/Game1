@@ -24,7 +24,7 @@ include  __APPPATH__ . '/controller/adminController.php';
     </div>
     <div class="div2">
         <input id="edit_id" type="hidden" />
-        <input name="user_number0" id="user_number0" class="user_number0" type="number"     />
+        <input name="user_number0" id="user_number0" class="user_number0" type="number" />
         <input name="points0" id="points0" class="points0" type="number" />
         <button class="add_fields_btn" id="add_fields_btn" name="add_fields_btn"> + </button>
     </div> <br />
@@ -45,6 +45,15 @@ include  __APPPATH__ . '/controller/adminController.php';
         <tbody id="data_body"></tbody>
     </table>
 
+    <button name="show_leaderbord" id="show_leaderbord" class="show_leaderbord"> Show Leaderbord </button>
+        <table id="leaderboard" border=1 style="display: none;">
+            <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Points</th>
+            </tr>
+            <tbody id="leaderboardData"></tbody>
+        </table>
 </body>
 
 <script>
@@ -115,6 +124,33 @@ include  __APPPATH__ . '/controller/adminController.php';
                 $('#user_number0').val('');
                 $('#points0').val('');
                 readRules();
+            }
+        })
+    })
+
+    $('#show_leaderbord').click(function() {
+        $.ajax({
+            url: '../controller/adminController.php',
+            type: "POST",
+            data: {
+                action: "getLeaderBord",
+            },
+            success: function(response) {
+                var user = JSON.parse(response);
+                var values = '';
+                $('#leaderboard').show();
+
+                if (user.length > 0) {
+                    for (let i = 0; i < user.length ; i++) {
+                        values += '<tr>';
+                        values += "<td>" + user[i].Rank + "</td> ";
+                        values += "<td>" + user[i].Name + "</td> ";
+                        values += "<td>" + user[i].Points + "</td> ";
+                        values += '</tr>';
+                        $('#leaderboardData').html(values);
+                    }
+                }
+
             }
         })
     })

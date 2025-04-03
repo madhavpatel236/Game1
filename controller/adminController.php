@@ -49,6 +49,12 @@ class adminController
         // echo json_encode('hiihii');
         return $this->userModelObject->updateRule($numberOfPlayers, $points, $id);
     }
+
+    public function getLeaderbord()
+    {
+        $data = $this->userModelObject->userRankTable();
+        echo json_encode($data);
+    }
 }
 
 
@@ -72,6 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 break;
             case 'update':
                 $adminControllerObj->update();
+                break;
+            case 'getLeaderBord':
+                $adminControllerObj->getLeaderbord();
                 break;
         }
     };
