@@ -23,7 +23,7 @@ $(document).ready(function () {
       answer4 == "" ||
       answer5 == ""
     ) {
-      $("#question_error").text("All the answers is require for this Quize.");
+      $("#question_error").text("*All the answers is require for this Quize.");
       return false;
     } else {
       $("#question_error").text("");

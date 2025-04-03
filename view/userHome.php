@@ -26,6 +26,7 @@ if ($_SESSION['isLogin'] != true) {
     <h3 id="complete_message" style="display: none;" > Quiz was completed by you. </h3>
     <form id="quizeForm" method="post">
         <h2> Questions </h2>
+        <div id="question_error"> </div>
         <div>
             <h4> Question:1 -> Which is Your favorite IPL team? </h4>
             <input name="question1" id="question1" type="text" />
@@ -52,7 +53,6 @@ if ($_SESSION['isLogin'] != true) {
             <input name="question5" id="question5" type="text" />
         </div> <br />
 
-        <div id="question_error"> </div>
         <button name="submit_btn" class="submit_btn"> Submit </button>
     </form>
 
