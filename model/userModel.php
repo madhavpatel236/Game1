@@ -1,4 +1,7 @@
 <?php
+
+use BcMath\Number;
+
 session_start();
 include('../constant.php');
 include __APPPATH__ . '/constant.php';
@@ -33,7 +36,7 @@ class userModel
         $isEmailPresent = "SELECT * FROM auth WHERE Email = '$email'";
         $isEmailPresentRes = $this->isConnect->query($isEmailPresent);
         // var_dump($isEmailPresentRes->num_rows);
-        if($isEmailPresentRes->num_rows == 0){
+        if ($isEmailPresentRes->num_rows == 0) {
             $_SESSION['Credential_error']  = true;
         }
 
@@ -117,8 +120,8 @@ class userModel
     public function createUserDataTable()
     {
         $table = "CREATE TABLE IF NOT EXISTS userData(
-        Ranking INT(10) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-        Email VARCHAR(40),
+        Ranking INT(10) NOT NULL ,
+        Email VARCHAR(40) PRIMARY KEY ,
         Points VARCHAR(10)
         )";
         if ($this->isConnect->query($table)) {
@@ -146,7 +149,7 @@ class userModel
                 echo "<script> console.log('user Addded into the auth table.'); </script>";
                 $_SESSION['isLogin'] = true;
                 $_SESSION['role'] = 'user';
-                $_SESSION['currentUserEmail'] = $email ;
+                $_SESSION['currentUserEmail'] = $email;
                 header("Location: /Game1/view/userHome.php");
                 exit;
             } else {
@@ -314,7 +317,7 @@ class userModel
         $count = 0;
         if ($tableContent->num_rows > 0) {
             while ($row = $tableContent->fetch_assoc()) {
-                $count += 1; 
+                $count += 1;
                 $tableDataArray[] = [
                     "Rank" => $count,
                     "Name" => $row['Name'],
@@ -339,6 +342,69 @@ class userModel
             return true;
         }
     }
+
+    public function rank()
+    {
+        $ranks = "SELECT Ranking FROM userData";
+        $result = $this->isConnect->query($ranks);
+        $row = $result->num_rows;
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = (int) $row['Ranking'];
+        }
+        // echo __LINE__;
+        // var_dump($data);
+
+        for ($i = 0; $i < count($data); $i++) {
+            $currentUserEmail = $_SESSION['currentUserEmail'];
+            // echo __LINE__ . var_dump($data[$i] > $i + 1);
+            if ($data[$i] > $i + 1) {
+                $gap = $data[$i] - ($i + 1);
+                $newRank = $data[$i] - $gap;
+                $updateRank = "UPDATE userData SET Ranking = '$newRank' WHERE Ranking = '$data[$i]' ";
+                if ($this->isConnect->query($updateRank)) {
+                    echo __LINE__ ; var_dump($currentUserEmail);
+                    echo "<script> console.log('Rank changed in the DB.'); </script>";
+                } else {
+                    $this->isConnect->error;
+                    echo "<script> console.log('*ERROR: Rank was not changed in the DB.'); </script>";
+                }
+            }
+        }
+    }
 }
 $userModelObj = new userModel();
-// var_dump($userModelObj->isTestCompleted());
+$userModelObj->rank();
+
+
+
+
+
+// $rank = "SELECT Ranking FROM userData ORDER BY Ranking DESC LIMIT 1 ";
+//         $rankResult = $this->isConnect->query($rank);
+//         $rowCount = $rankResult->num_rows > 0;
+//         $prevRank = $rankResult->fetch_assoc();
+        
+//         if ($prevRank > 0) {
+//             $currRank =  $prevRank['Ranking'] + 1;
+//             // echo __LINE__ .", " .  ($currRank); exit;
+//             $email = 'madhav1@gmail.com';
+//             $InsertUser = "INSERT INTO userData (Ranking, Email) VALUES ($currRank, '$email')";
+//             $InsertUserResult = $this->isConnect->query($InsertUser);
+//             if ($InsertUserResult) {
+//                 echo __LINE__ . "sucess";
+//             } else {
+//                 $this->isConnect->error; exit;
+//                 echo __LINE__ . "fail";
+//             }
+//         } else {
+//             $email = 'madhav1@gmail.com';
+//             $InsertUser = "INSERT INTO userData (Ranking, Email) VALUES (1, '$email')";
+//             $InsertUserResult = $this->isConnect->query($InsertUser);
+//             if ($InsertUserResult) {
+//                 echo __LINE__ . "sucess";
+//             } else {
+//                 $this->isConnect->error; exit;
+//                 echo __LINE__ . "fail";
+//             }
+//         }

@@ -41,7 +41,7 @@ if ($_SESSION['isLogin'] == true && $_SESSION['role'] == 'admin') {
         <input id="password" name="password" type="password" />
         <span name='password_error' id="password_error"> <?php echo $authControllerObj->errors['password_error']; ?> </span> <br /> <br />
         
-        <span name='common_error' id="common_error"> <?php echo $authControllerObj->errors['general_error']; ?> </span> <br /> <br />
+        <!-- <span name='common_error' id="common_error"> <?php echo $authControllerObj->errors['general_error']; ?> </span> <br /> <br /> -->
         <button name="submit_btn"> Submit </button>
         <a href="./view/register.php"> Register </a>
     </form>
