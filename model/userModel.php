@@ -311,15 +311,15 @@ class userModel
 
     public function userRankTable()
     {
-        $table = 'SELECT  userData.Points, auth.Name From userData INNER JOIN auth ON auth.Email = userData.Email ORDER BY Ranking ';
+        $table = 'SELECT userData.Ranking, userData.Points, auth.Name From userData INNER JOIN auth ON auth.Email = userData.Email ORDER BY Ranking ';
         $tableContent = $this->isConnect->query($table);
         $tableDataArray = [];
-        $count = 0;
+        // $count = 0;
         if ($tableContent->num_rows > 0) {
             while ($row = $tableContent->fetch_assoc()) {
-                $count += 1;
+                // $count += 1;
                 $tableDataArray[] = [
-                    "Rank" => $count,
+                    "Rank" => $row['Ranking'],
                     "Name" => $row['Name'],
                     "Points" => $row['Points']
                 ];
