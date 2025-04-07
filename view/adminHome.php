@@ -135,6 +135,8 @@ if ($_SESSION['isLogin'] != true) {
                 // console.log(response);
                 $('#user_number0').val('');
                 $('#points0').val('');
+                $('#update_rule').hide();
+                $('#submit_rule').show();
                 readRules();
             }
         })
