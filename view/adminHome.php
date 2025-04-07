@@ -17,7 +17,7 @@ if ($_SESSION['isLogin'] != true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Home</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
     <script src="../assets/adminAuth.js"></script>
 </head>
@@ -40,7 +40,7 @@ if ($_SESSION['isLogin'] != true) {
 
     <div class="add_div"></div>
 
-    <button name="submit_rule" class="submit_rule">Add</button>
+    <button name="submit_rule" id="submit_rule" class="submit_rule">Add</button>
     <button id="update_rule" name="update_rule" style="display:none;">Update</button>
     <div class='common_error'></div>
 
@@ -55,8 +55,8 @@ if ($_SESSION['isLogin'] != true) {
     </table>
 
     <button name="show_leaderbord" id="show_leaderbord" class="show_leaderbord"> Show Leaderbord </button>
-    <button name="hide_leaderbord" id="hide_leaderbord" class="hide_leaderbord" style="display: none;" > Hide Leaderbord</button>
-    <h4 style="display: none;" class="leaderbordEmpty_message"> No user completed the  </h4>
+    <button name="hide_leaderbord" id="hide_leaderbord" class="hide_leaderbord" style="display: none;"> Hide Leaderbord</button>
+    <h4 style="display: none;" class="leaderbordEmpty_message"> No user completed the test </h4>
     <table id="leaderboard" border=1 style="display: none;">
         <tr>
             <th>Rank</th>
@@ -69,7 +69,7 @@ if ($_SESSION['isLogin'] != true) {
 </body>
 
 <script>
-    readRules(); // TODO: add after all the btn click res end.
+    readRules();
 
     var count = 0;
     var userNumberArray = [];
@@ -135,6 +135,8 @@ if ($_SESSION['isLogin'] != true) {
                 // console.log(response);
                 $('#user_number0').val('');
                 $('#points0').val('');
+                $('#update_rule').hide();
+                $('#submit_rule').show();
                 readRules();
             }
         })
@@ -150,7 +152,7 @@ if ($_SESSION['isLogin'] != true) {
             success: function(response) {
                 var user = JSON.parse(response);
                 var values = '';
-                
+
                 if (user.length > 0) {
                     $('#leaderboard').show();
                     for (let i = 0; i < user.length; i++) {
@@ -167,13 +169,14 @@ if ($_SESSION['isLogin'] != true) {
                     $('.leaderbordEmpty_message').show();
                     $('#hide_leaderbord').show();
                     $('#show_leaderbord').hide();
+                    $('#submit_rule').show();
                 }
 
             }
         })
     })
 
-    $('#hide_leaderbord').click(function(){
+    $('#hide_leaderbord').click(function() {
         $('#leaderboard').hide();
         $('.leaderbordEmpty_message').hide();
         $('#hide_leaderbord').hide()
