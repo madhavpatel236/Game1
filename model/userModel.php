@@ -349,11 +349,11 @@ class userModel
         $result = $this->isConnect->query($ranks);
         $row = $result->num_rows;
         $data = [];
+        $lastRank = $row;
+        // echo __LINE__; var_dump($lastRank ); exit;
         while ($row = $result->fetch_assoc()) {
             $data[] = (int) $row['Ranking'];
         }
-        // echo __LINE__;
-        // var_dump($data);
 
         for ($i = 0; $i < count($data); $i++) {
             $currentUserEmail = $_SESSION['currentUserEmail'];
@@ -361,14 +361,29 @@ class userModel
             if ($data[$i] > $i + 1) {
                 $gap = $data[$i] - ($i + 1);
                 $newRank = $data[$i] - $gap;
+                $lastRank = $newRank;
                 $updateRank = "UPDATE userData SET Ranking = '$newRank' WHERE Ranking = '$data[$i]' ";
                 if ($this->isConnect->query($updateRank)) {
-                    echo __LINE__ ; var_dump($currentUserEmail);
+                    // echo __LINE__;
+                    // var_dump($currentUserEmail);
                     echo "<script> console.log('Rank changed in the DB.'); </script>";
                 } else {
                     $this->isConnect->error;
                     echo "<script> console.log('*ERROR: Rank was not changed in the DB.'); </script>";
                 }
+            }
+            // echo __LINE__;
+            // var_dump($lastRank);
+            // exit;
+            $ranking = $lastRank + 1;
+            $email = $_SESSION['currentUserEmail'];
+            // echo __LINE__; var_dump($email); exit;
+            $insert = "INSERT INTO userData (Ranking , Email) VALUES ('$ranking', '$email') ";
+            if($this->isConnect->query($insert)){
+
+            } else {
+                $this->isConnect->error;
+                // echo " <script> console.log('*ERROR: data was not insertes into the userData table.'); </script> ";
             }
         }
     }
@@ -379,6 +394,53 @@ $userModelObj->rank();
 
 
 
+
+// public function rank()
+//     {
+//         $ranks = "SELECT Ranking FROM userData";
+//         $result = $this->isConnect->query($ranks);
+//         $row = $result->num_rows;
+//         $data = [];
+//         $lastRank = count($data);
+        
+//         while ($row = $result->fetch_assoc()) {
+//             $data[] = (int) $row['Ranking'];
+//         }
+
+//         // check: change the present user rank if needed
+//         for ($i = 0; $i < count($data) +1; $i++) {
+//             $currentUserEmail = $_SESSION['currentUserEmail'];
+//             if ($data[$i] > $i + 1) {
+//                 $gap = $data[$i] - ($i + 1);
+//                 $newRank = $data[$i] - $gap;
+//                 $lastRank = $newRank +1;
+                
+//                 $updateRank = "UPDATE userData SET Ranking = '$newRank' WHERE Ranking = '$data[$i]' ";
+               
+//                 if ($this->isConnect->query($updateRank)) {
+//                     echo "<script> console.log('Rank changed in the DB.'); </script>";
+//                 } else {
+//                     $this->isConnect->error;
+//                     echo "<script> console.log('*ERROR: Rank was not changed in the DB.'); </script>";
+//                 }
+//             }
+//         }
+//         $email = $_SESSION['currentUserEmail'];
+//         echo __LINE__; var_dump($lastRank);
+
+//         $insert = "INSERT INTO userData (Ranking, Email) VALUES ('$lastRank' , '$email') ";
+//         if($this->isConnect->query($insert)){
+//             echo " <script> console.log('user quize data inserted into the table.'); </script> ";
+//         } else {
+//             $this->isConnect->error;
+//             echo " <script> console.log('*ERROR: user quiz data was not inserted into the table.'); </script> ";
+//         }
+//     }
+
+
+
+
+// ------------------------------
 
 // $rank = "SELECT Ranking FROM userData ORDER BY Ranking DESC LIMIT 1 ";
 //         $rankResult = $this->isConnect->query($rank);

@@ -69,7 +69,7 @@ if ($_SESSION['isLogin'] != true) {
 </body>
 
 <script>
-    userTestStatus();
+     userTestStatus();
     readUser();
     
     function readUser() {
