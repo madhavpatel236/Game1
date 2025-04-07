@@ -393,13 +393,13 @@ class userModel
 
     public function updatePoint()
     {
+        echo __LINE__; var_dump($this->userPoint); exit;
         $pointsInsert = "UPDATE userData SET Points = '$this->userPoint' WHERE Email = '$this->email' ";
         if ($this->isConnect->query($pointsInsert)) {
             $this->isConnect->error;
-            // echo " <script> console.log('*ERROR: points is not inserted into the userData table') </script> ";
         }
     }
 }
 $userModelObj = new userModel();
 $userModelObj->updateRank();
-$userModelObj->updatePoint();
+// $userModelObj->updatePoint();
