@@ -24,7 +24,7 @@ class authController
 
         // validation
 
-        if (isset($_POST['submit_btn']) || isset($_POST['register_btn'])) {
+        if (isset($_POST['submit_btn'])) {
             if ($this->name && empty($this->name)) {
                 $this->errors['name_error'] = "name is reqired";
                 $this->isValid = false;
@@ -46,6 +46,25 @@ class authController
             }
             if ($this->isValid != false) {
                 return false;
+            }
+        }
+
+        if( isset($_POST['register_btn'])){
+            if ($this->name && empty($this->name)) {
+                $this->errors['name_error'] = "name is reqired";
+                $this->isValid = false;
+            }
+            if (empty($this->email)) {
+                $this->errors['email_error'] = "email is reqired";
+                $this->isValid = false;
+            }
+            if (empty($this->password)) {
+                $this->errors['password_error'] = "password is reqired";
+                $this->isValid = false;
+            }
+            if ($_SESSION['isUserPresentAlready'] == true) {
+                $this->errors['general_error'] = "User already present, please use different email address.";
+                $this->isValid = false;
             }
         }
     }
