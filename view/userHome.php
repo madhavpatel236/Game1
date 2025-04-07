@@ -53,7 +53,7 @@ if ($_SESSION['isLogin'] != true) {
             <input name="question5" id="question5" type="text" />
         </div> <br />
 
-        <button name="submit_btn" class="submit_btn"> Submit </button>
+        <button name="user_submit_btn" class="user_submit_btn"> Submit </button>
     </form>
 
     <table style="display: none;" name="rankTable" id="rankTable" class="rankTable" border="2">
@@ -69,7 +69,7 @@ if ($_SESSION['isLogin'] != true) {
 </body>
 
 <script>
-     userTestStatus();
+    userTestStatus();
     readUser();
     
     function readUser() {
@@ -112,7 +112,7 @@ if ($_SESSION['isLogin'] != true) {
             },
             success: function(response) {
                 var user = JSON.parse(response);
-                console.log(user);
+                // console.log(user);
                     if (user == false) {
                         $('#quizeForm').hide();
                         $('#complete_message').show()

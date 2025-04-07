@@ -43,7 +43,7 @@ class userController
 
     public function insertData()
     {
-        $this->userModelObj->InsertUserData();
+        $data = $this->userModelObj->InsertUserData();
     }
 
     public function showResult()
@@ -72,9 +72,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
-    if (isset($_POST['submit_btn'])) {
+    if (isset($_POST['user_submit_btn'])) {
         $userControllerObj->insertData();
     }
+
 
     if (isset($_POST['action'])) {
         $action = $_POST['action'];

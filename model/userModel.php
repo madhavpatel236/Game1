@@ -179,7 +179,7 @@ class userModel
 
     public function getAllRules()
     {
-        $rules = "SELECT * FROM rules";
+        $rules = "SELECT * FROM rules ORDER BY NumberOfPlayers ASC ";
         $rulesResult = $this->isConnect->query($rules);
 
         $responseArray = [];
@@ -245,69 +245,69 @@ class userModel
         // }
     }
 
-    public function InsertUserData()
-    {
-        $this->currentUserEmail = $_SESSION['currentUserEmail'];
-        // echo __LINE__;
-        // var_dump($email);
-        // echo "<br/>";
+    // public function InsertUserData()
+    // {
+    //     $this->currentUserEmail = $_SESSION['currentUserEmail'];
+    //     // echo __LINE__;
+    //     // var_dump($email);
+    //     // echo "<br/>";
 
-        // varify that if already email present in db
-        $varify = "SELECT Email FROM userData WHERE Email = '$this->currentUserEmail'";
-        $varifiedEmail = $this->isConnect->query($varify);
-        $varifiedEmailRow = $varifiedEmail->fetch_assoc();
-        if (!$varifiedEmailRow) {
-            // insert a email in the userData db. 
-            $insert = "INSERT INTO userData (Email) VALUES ('$this->currentUserEmail')";
-            if ($this->isConnect->query($insert)) {
-                echo " <script> console.log('Data was inserted into the userData database'); </script> ";
-            } else {
-                echo __LINE__ . $this->isConnect->error;
-                " <script> console.log('*ERROR: Data was not inserted into the userData database'); </script> ";
-            }
-        }
+    //     // varify that if already email present in db
+    //     $varify = "SELECT Email FROM userData WHERE Email = '$this->currentUserEmail'";
+    //     $varifiedEmail = $this->isConnect->query($varify);
+    //     $varifiedEmailRow = $varifiedEmail->fetch_assoc();
+    //     if (!$varifiedEmailRow) {
+    //         // insert a email in the userData db. 
+    //         $insert = "INSERT INTO userData (Email) VALUES ('$this->currentUserEmail')";
+    //         if ($this->isConnect->query($insert)) {
+    //             echo " <script> console.log('Data was inserted into the userData database'); </script> ";
+    //         } else {
+    //             echo __LINE__ . $this->isConnect->error;
+    //             " <script> console.log('*ERROR: Data was not inserted into the userData database'); </script> ";
+    //         }
+    //     }
 
-        // find the rank of the user.
-        $rankOfUser = "SELECT Ranking FROM userData WHERE Email = '$this->currentUserEmail'";
-        $rankOfUserResult = $this->isConnect->query($rankOfUser);
-        $fetch = $rankOfUserResult->fetch_assoc(); // here we get a rank of the user.
-        $fetchedRank = $fetch['Ranking'];
-        if ($rankOfUserResult) {
-            echo " <script> console.log('sucessfully find the rank of the user.'); </script> ";
-        } else {
-            echo __LINE__ . $this->isConnect->error;
-            " <script> console.log('*ERROR: Does not find the rank of the user.'); </script> ";
-        }
+    //     // find the rank of the user.
+    //     $rankOfUser = "SELECT Ranking FROM userData WHERE Email = '$this->currentUserEmail'";
+    //     $rankOfUserResult = $this->isConnect->query($rankOfUser);
+    //     $fetch = $rankOfUserResult->fetch_assoc(); // here we get a rank of the user.
+    //     $fetchedRank = $fetch['Ranking'];
+    //     if ($rankOfUserResult) {
+    //         echo " <script> console.log('sucessfully find the rank of the user.'); </script> ";
+    //     } else {
+    //         echo __LINE__ . $this->isConnect->error;
+    //         " <script> console.log('*ERROR: Does not find the rank of the user.'); </script> ";
+    //     }
 
-        // select the rules row based on the user rank.  
-        $row = "SELECT * FROM rules WHERE NumberOfPlayers >= '$fetchedRank' ORDER BY NumberOfPlayers LIMIT 1 ";
-        $rowResult = $this->isConnect->query($row);
-        $fetchRowFromRules = $rowResult->fetch_assoc(); // here we get a row from the rules table like ([NumberOfPlayers] => '' , [Points] => '')
+    //     // select the rules row based on the user rank.  
+    //     $row = "SELECT * FROM rules WHERE NumberOfPlayers >= '$fetchedRank' ORDER BY NumberOfPlayers LIMIT 1 ";
+    //     $rowResult = $this->isConnect->query($row);
+    //     $fetchRowFromRules = $rowResult->fetch_assoc(); // here we get a row from the rules table like ([NumberOfPlayers] => '' , [Points] => '')
 
-        if ($rowResult) {
-            echo " <script> console.log('select a row from the rules table based on the rank in the userData table.  '); </script> ";
-        } else {
-            echo __LINE__ . $this->isConnect->error;
-            echo " <script> console.log('*ERROR: does not be able to select a row from the rules table based on the rank in the userData table.'); </script> ";
-        }
+    //     if ($rowResult) {
+    //         echo " <script> console.log('select a row from the rules table based on the rank in the userData table.  '); </script> ";
+    //     } else {
+    //         echo __LINE__ . $this->isConnect->error;
+    //         echo " <script> console.log('*ERROR: does not be able to select a row from the rules table based on the rank in the userData table.'); </script> ";
+    //     }
 
-        // user earned points
-        if ($fetchRowFromRules['Points'] != null) {
-            $this->userPoint = $fetchRowFromRules['Points'];
-        } else {
-            $this->userPoint = 0;
-        }
+    //     // user earned points
+    //     if ($fetchRowFromRules['Points'] != null) {
+    //         $this->userPoint = $fetchRowFromRules['Points'];
+    //     } else {
+    //         $this->userPoint = 0;
+    //     }
 
-        // insert the user earned point into the userData table.
-        $insertPoints = " UPDATE userData SET Points = $this->userPoint WHERE Email = '$this->currentUserEmail'";
-        $insertPointsResult = $this->isConnect->query($insertPoints);
-        if ($insertPointsResult) {
-            echo " <script> console.log('Point is inserted sucessfully into the userData table. '); </script> ";
-        } else {
-            $this->isConnect->error;
-            echo " <script> console.log('*ERROR: Point is not inserted into the userData table. '); </script> ";
-        }
-    }
+    //     // insert the user earned point into the userData table.
+    //     $insertPoints = " UPDATE userData SET Points = $this->userPoint WHERE Email = '$this->currentUserEmail'";
+    //     $insertPointsResult = $this->isConnect->query($insertPoints);
+    //     if ($insertPointsResult) {
+    //         echo " <script> console.log('Point is inserted sucessfully into the userData table. '); </script> ";
+    //     } else {
+    //         $this->isConnect->error;
+    //         echo " <script> console.log('*ERROR: Point is not inserted into the userData table. '); </script> ";
+    //     }
+    // }
 
     public function userRankTable()
     {
@@ -343,29 +343,27 @@ class userModel
         }
     }
 
-    public function rank()
+    public function InsertUserData()
     {
         $ranks = "SELECT Ranking FROM userData";
         $result = $this->isConnect->query($ranks);
         $row = $result->num_rows;
         $data = [];
         $lastRank = $row;
-        // echo __LINE__; var_dump($lastRank ); exit;
+        $email = $_SESSION['currentUserEmail'];
+
         while ($row = $result->fetch_assoc()) {
             $data[] = (int) $row['Ranking'];
         }
 
         for ($i = 0; $i < count($data); $i++) {
             $currentUserEmail = $_SESSION['currentUserEmail'];
-            // echo __LINE__ . var_dump($data[$i] > $i + 1);
             if ($data[$i] > $i + 1) {
                 $gap = $data[$i] - ($i + 1);
                 $newRank = $data[$i] - $gap;
                 $lastRank = $newRank;
                 $updateRank = "UPDATE userData SET Ranking = '$newRank' WHERE Ranking = '$data[$i]' ";
                 if ($this->isConnect->query($updateRank)) {
-                    // echo __LINE__;
-                    // var_dump($currentUserEmail);
                     echo "<script> console.log('Rank changed in the DB.'); </script>";
                 } else {
                     $this->isConnect->error;
@@ -379,63 +377,62 @@ class userModel
             $email = $_SESSION['currentUserEmail'];
             // echo __LINE__; var_dump($email); exit;
             $insert = "INSERT INTO userData (Ranking , Email) VALUES ('$ranking', '$email') ";
-            if($this->isConnect->query($insert)){
-
+            if ($this->isConnect->query($insert)) {
             } else {
                 $this->isConnect->error;
                 // echo " <script> console.log('*ERROR: data was not insertes into the userData table.'); </script> ";
             }
         }
+
+
+        // for the points
+        $playerCount = "SELECT * FROM rules ";
+        $playerCountresult = $this->isConnect->query($playerCount);
+        $row = $playerCountresult->num_rows;
+        $dataArr = [];
+
+        if ($row > 0) {
+            while ($row = $playerCountresult->fetch_assoc()) {
+                $dataArr[] = [
+                    'NumberOfPlayers' => $row['NumberOfPlayers'],
+                    'Points' => $row['Points']
+                ];
+            }
+
+            $rankOfCurrentUser = "SELECT RANKING FROM userData WHERE Email = '$email' ";
+            $rankOfCurrentUserResult = $this->isConnect->query($rankOfCurrentUser);
+            $CurrentUserRank = (int) $rankOfCurrentUserResult->fetch_assoc()['RANKING'];
+            $userPoint = '';
+            $prev = '';
+        }
+
+        $prev = (int) $dataArr[0]['NumberOfPlayers'];
+        for ($i = 0; $i < count($dataArr) - 1; $i++) {
+            $countRules = '';
+            $prev += (int) $dataArr[$i + 1]['NumberOfPlayers'];
+            $countRules = $prev;
+
+            if ((int) $dataArr[0]['NumberOfPlayers'] >= $CurrentUserRank) {
+                $userPoint = (int) $dataArr[$i]['Points'];
+            } elseif ($countRules >= $CurrentUserRank) {
+                $userPoint = (int) $dataArr[$i + 1]['Points'];
+            }
+        }
+        // $pointsInsert = "INSERT INTO userData (Points) VALUES ('$userPoint') WHERE Email = '$email' ";
+        $pointsInsert = "UPDATE userData SET Points = '$userPoint' WHERE Email = '$email' ";
+        if ($this->isConnect->query($pointsInsert)) {
+            // echo __LINE__;
+            // var_dump($this->isConnect->query($pointsInsert));
+            // exit;
+        } else {
+            $this->isConnect->error;
+            echo " <script> console.log('*ERROR: points is not inserted into the userData table') </script> ";
+        }
     }
 }
 $userModelObj = new userModel();
-$userModelObj->rank();
+// $userModelObj->InsertUserData();
 
-
-
-
-
-// public function rank()
-//     {
-//         $ranks = "SELECT Ranking FROM userData";
-//         $result = $this->isConnect->query($ranks);
-//         $row = $result->num_rows;
-//         $data = [];
-//         $lastRank = count($data);
-        
-//         while ($row = $result->fetch_assoc()) {
-//             $data[] = (int) $row['Ranking'];
-//         }
-
-//         // check: change the present user rank if needed
-//         for ($i = 0; $i < count($data) +1; $i++) {
-//             $currentUserEmail = $_SESSION['currentUserEmail'];
-//             if ($data[$i] > $i + 1) {
-//                 $gap = $data[$i] - ($i + 1);
-//                 $newRank = $data[$i] - $gap;
-//                 $lastRank = $newRank +1;
-                
-//                 $updateRank = "UPDATE userData SET Ranking = '$newRank' WHERE Ranking = '$data[$i]' ";
-               
-//                 if ($this->isConnect->query($updateRank)) {
-//                     echo "<script> console.log('Rank changed in the DB.'); </script>";
-//                 } else {
-//                     $this->isConnect->error;
-//                     echo "<script> console.log('*ERROR: Rank was not changed in the DB.'); </script>";
-//                 }
-//             }
-//         }
-//         $email = $_SESSION['currentUserEmail'];
-//         echo __LINE__; var_dump($lastRank);
-
-//         $insert = "INSERT INTO userData (Ranking, Email) VALUES ('$lastRank' , '$email') ";
-//         if($this->isConnect->query($insert)){
-//             echo " <script> console.log('user quize data inserted into the table.'); </script> ";
-//         } else {
-//             $this->isConnect->error;
-//             echo " <script> console.log('*ERROR: user quiz data was not inserted into the table.'); </script> ";
-//         }
-//     }
 
 
 
