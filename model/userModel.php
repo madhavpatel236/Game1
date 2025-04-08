@@ -10,12 +10,20 @@ class userModel
     public $isConnect;
     public $userPoint;
     public $currentUserEmail;
+<<<<<<< HEAD
     // public $lastRank;
+=======
+    public $lastRank;
+>>>>>>> c6792078e6a112046a262645d03562fa5d7d3bcc
     public $email;
 
     public function __construct()
     {
+<<<<<<< HEAD
         // $lastRank = 0;
+=======
+        $this->lastRank = 0;
+>>>>>>> c6792078e6a112046a262645d03562fa5d7d3bcc
         $this->userPoint = 0;
         $db = new database();
         $this->isConnect = $db->dbConnection();
@@ -179,8 +187,15 @@ class userModel
 
     public function getAllRules()
     {
+<<<<<<< HEAD
         $rules = "SELECT * FROM rules  ";
+<<<<<<< HEAD
 
+=======
+=======
+        $rules = "SELECT * FROM rules";
+>>>>>>> 56e445af784279d049dfa75cebe0038145d8a0fb
+>>>>>>> c6792078e6a112046a262645d03562fa5d7d3bcc
         $rulesResult = $this->isConnect->query($rules);
 
         $responseArray = [];
@@ -235,6 +250,13 @@ class userModel
         } else {
             echo '<script> console.log("*ERROR: Does not update the rule."); </script>';
         }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> 56e445af784279d049dfa75cebe0038145d8a0fb
+>>>>>>> c6792078e6a112046a262645d03562fa5d7d3bcc
     }
 
     public function userRankTable()
@@ -280,10 +302,15 @@ class userModel
         $result = $this->isConnect->query($ranks);
         $row = $result->num_rows;
         $data = [];
+<<<<<<< HEAD
         
         $this->email = $_SESSION['currentUserEmail'];
+=======
+        $this->email = $_SESSION['currentUserEmail'];
+
+>>>>>>> c6792078e6a112046a262645d03562fa5d7d3bcc
         if ($row > 0) {
-            $lastRank = $row;
+            $this->lastRank = $row;
             while ($row = $result->fetch_assoc()) {
                 $data[] = (int) $row['Ranking'];
             }
@@ -296,7 +323,7 @@ class userModel
                 if ($data[$i] > $i + 1) {
                     $gap = $data[$i] - ($i + 1);
                     $newRank = $data[$i] - $gap;
-                    $lastRank = $newRank;
+                    $this->lastRank = $newRank;
                     $updateRank = "UPDATE userData SET Ranking = '$newRank' WHERE Ranking = '$data[$i]' ";
                     if ($this->isConnect->query($updateRank)) {
                         echo "<script> console.log('Rank changed in the DB.'); </script>";
@@ -309,11 +336,20 @@ class userModel
         }
 
         // insert the ranking and Email in the userData table.
+<<<<<<< HEAD
         $ranking = $lastRank + 1;
         $email = $_SESSION['currentUserEmail'];
         // echo __LINE__; var_dump($email); exit;
         $insert = "INSERT INTO userData (Ranking , Email) VALUES ('$ranking', '$email') ";
+<<<<<<< HEAD
 
+=======
+=======
+        $ranking = $this->lastRank + 1;
+        $this->email = $_SESSION['currentUserEmail'];
+        $insert = "INSERT INTO userData (Ranking , Email) VALUES ('$ranking', '$this->email') ";
+>>>>>>> 56e445af784279d049dfa75cebe0038145d8a0fb
+>>>>>>> c6792078e6a112046a262645d03562fa5d7d3bcc
         if ($this->isConnect->query($insert)) {
         } else {
             $this->isConnect->error;
@@ -334,15 +370,36 @@ class userModel
                     'NumberOfPlayers' => $row['NumberOfPlayers'],
                     'Points' => $row['Points']
                 ];
+<<<<<<< HEAD
             }
             // $rankOfCurrentUser = "SELECT Ranking FROM userData WHERE Email = '$email' ";
             $rankOfCurrentUser = "SELECT RANKING FROM userData WHERE Email = '$email' ";
 
+=======
+<<<<<<< HEAD
+            }  
+            // $rankOfCurrentUser = "SELECT Ranking FROM userData WHERE Email = '$email' ";
+            $rankOfCurrentUser = "SELECT RANKING FROM userData WHERE Email = '$email' ";
+=======
+            }
+            $rankOfCurrentUser = "SELECT RANKING FROM userData WHERE Email = '$this->email' ";
+>>>>>>> 56e445af784279d049dfa75cebe0038145d8a0fb
+>>>>>>> c6792078e6a112046a262645d03562fa5d7d3bcc
             $rankOfCurrentUserResult = $this->isConnect->query($rankOfCurrentUser);
             $CurrentUserRank = (int) $rankOfCurrentUserResult->fetch_assoc()['RANKING'];
             $prev = '';
         }
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+        
+        // echo __LINE__; var_dump($rankOfCurrentUserResult); 
+=======
+
+        // echo __LINE__; var_dump(count($dataArr)); exit;
+>>>>>>> 56e445af784279d049dfa75cebe0038145d8a0fb
+>>>>>>> c6792078e6a112046a262645d03562fa5d7d3bcc
         $prev = (int) $dataArr[0]['NumberOfPlayers'];
         for ($i = 0; $i < count($dataArr); $i++) {
             $countRules = '';
@@ -371,7 +428,7 @@ class userModel
         $result = $this->isConnect->query($ranks);
         $row = $result->num_rows;
         $data = [];
-        $lastRank = $row;
+        $this->lastRank = $row;
         $email = $_SESSION['currentUserEmail'];
 
         if ($row > 0) {
@@ -386,7 +443,7 @@ class userModel
             if ($data[$i] > $i + 1) {
                 $gap = $data[$i] - ($i + 1);
                 $newRank = $data[$i] - $gap;
-                $lastRank = $newRank;
+                $this->lastRank = $newRank;
                 $updateRank = "UPDATE userData SET Ranking = '$newRank' WHERE Ranking = '$data[$i]' ";
                 if ($this->isConnect->query($updateRank)) {
                     // echo "<script> console.log('Rank changed in the DB.'); </script>";
@@ -400,9 +457,13 @@ class userModel
 
     public function updatePoint()
     {
+<<<<<<< HEAD
         echo __LINE__;
         var_dump($this->userPoint);
         exit;
+=======
+        echo __LINE__; var_dump($this->userPoint); exit;
+>>>>>>> c6792078e6a112046a262645d03562fa5d7d3bcc
         $pointsInsert = "UPDATE userData SET Points = '$this->userPoint' WHERE Email = '$this->email' ";
         if ($this->isConnect->query($pointsInsert)) {
             $this->isConnect->error;
@@ -411,3 +472,13 @@ class userModel
 }
 $userModelObj = new userModel();
 $userModelObj->updateRank();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+
+
+
+=======
+// $userModelObj->updatePoint();
+>>>>>>> 56e445af784279d049dfa75cebe0038145d8a0fb
+>>>>>>> c6792078e6a112046a262645d03562fa5d7d3bcc
